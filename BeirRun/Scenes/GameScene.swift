@@ -24,8 +24,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var labelBox: CGRect?
     var countLabel: UILabel?
     var timeLabel: UILabel?
-    var timer = 100.0
+    var timer = 6.0
     var sTime = Timer()
+    var isFirst = true
     
     let substrateImage = UIImage(named: "timerSubstrate")
     let fillImage = UIImage(named: "timerFill")
@@ -70,18 +71,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(background)
         background.zPosition = -10000
         
-        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        //physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         physicsWorld.contactDelegate = self
         
         prevBeerX = frame.width / 2
         prevBeerY = frame.height / 2
-//        physicsBody?.usesPreciseCollisionDetection = true
+        //physicsBody?.usesPreciseCollisionDetection = true
         //Set UP
         setupJoystick()
         setUpTables()
         setUpTimer()
         setUpCount()
-        placeFirstDrink()
+        placeDrink()
 
         //MARK: Handlers begin
         moveJoystick.on(.move) { [unowned self] joystick in
@@ -120,39 +121,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     }
     
-    func placeFirstDrink() {
-        guard let drinkImage = UIImage(named: "beer") else {
-            return
-        }
-        let texture = SKTexture(image: drinkImage)
-        let d = SKSpriteNode(texture: texture)
-        
-        /*
-         let posX = CGFloat.random(in: 100...(frame.width - 100))
-         let posY = CGFloat.random(in: 100...(frame.height - 100))
-         d.position = CGPoint(x: posX, y: posY)
-         */
-        
-        let posX = CGFloat.random(in: 100...(frame.width - 100))
-        let posY = CGFloat.random(in: 50...(frame.height - 50))
-        d.position = CGPoint(x: posX, y: posY)
-        d.size = CGSize(width: (43), height: (47))
-        d.physicsBody = SKPhysicsBody(texture: texture, size: d.size)
-        d.physicsBody!.affectedByGravity = false
-        d.name = "drink"
-        
-        
-        d.zPosition = -2
-        //d.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
-        self.addChild(d)
-        drink = d
-    }
-    
     func setupJoystick() {
         joystickStickImageEnabled = true
         joystickSubstrateImageEnabled = true
         //only allows user to control joystick from left side of screen
-        let moveJoystickHiddenArea = TLAnalogJoystickHiddenArea(rect: CGRect(x: 0, y: 0, width: 1000, height: 1000))
+        let moveJoystickHiddenArea = TLAnalogJoystickHiddenArea(rect: CGRect(x: 0, y: 500, width: -1000, height: -1000))
         
         moveJoystickHiddenArea.joystick = moveJoystick
         moveJoystick.isMoveable = true
@@ -175,7 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         p.name = "player"
         
         p.position = position
-        p.zPosition = -1
+        p.zPosition = -2
         self.addChild(p)
         player = p
         let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: player!)
@@ -210,14 +183,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //sub.physicsBody!.isDynamic = false
 
 
-        //timerFill?.run(SKAction.resize(toWidth: 0.0, duration: 6.0))
-        //timerFill?.run(SKAction.moveTo(x: timerFill!.position.x - (timerFill!.size.width / 2), duration: 6))
+
         cam.addChild(sub)
         cam.addChild(fil)
-    
+
         timerSubstrate = sub
         timerFill = fil
         
+        timerFill?.run(SKAction.resize(toWidth: 0, duration: timer))
+        timerFill?.run(SKAction.moveTo(x: timerSubstrate!.position.x - (fillWidth / 4), duration: timer))
         sTime = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(displayTimer), userInfo: nil, repeats: true)
     }
     
@@ -264,8 +238,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tr.position = CGPoint(x: Rx, y: Ry)
         tl.position = CGPoint(x: Lx, y: Ly)
         
-        tr.zPosition = -1
-        tl.zPosition = -1
+        tr.zPosition = -3
+        tl.zPosition = -3
  
         self.addChild(tr)
         self.addChild(tl)
@@ -303,29 +277,68 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             countLabel = UILabel()
             countLabel?.text = "    \(app.drinkCount)    "
             countLabel?.textColor = .green
-            countLabel?.font = UIFont.boldSystemFont(ofSize:36)
+            let customFont = UIFont(name: "GrungeTank", size: 36)
+
+            countLabel?.font = customFont
            // countLabel?.frame.size.width = 0
             countLabel?.lineBreakMode = .byClipping
             countLabel?.sizeToFit()
-            countLabel?.center = CGPoint(x: frame.width - timerSubstrate!.position.x - 50, y: frame.height - timerSubstrate!.position.y)
+            countLabel?.center = CGPoint(x: frame.width / 2 - frame.width / 8, y: frame.height * 0.078)
             
             view.addSubview(countLabel!)
         }
     }
     
+    func placeFirstDrink() {
+        guard let drinkImage = UIImage(named: "beer") else {
+            return
+        }
+        let texture = SKTexture(image: drinkImage)
+        let d = SKSpriteNode(texture: texture)
+        
+        /*
+         let posX = CGFloat.random(in: 100...(frame.width - 100))
+         let posY = CGFloat.random(in: 100...(frame.height - 100))
+         d.position = CGPoint(x: posX, y: posY)
+         */
+        
+        let posX = CGFloat.random(in: 100...(frame.width - 100))
+        let posY = CGFloat.random(in: 50...(frame.height - 50))
+        d.position = CGPoint(x: posX, y: posY)
+        d.size = CGSize(width: (43), height: (47))
+        d.physicsBody = SKPhysicsBody(texture: texture, size: d.size)
+        d.physicsBody!.affectedByGravity = false
+        d.name = "drink"
+        
+        
+        d.zPosition = -2
+        //d.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
+        self.addChild(d)
+        drink = d
+    }
     
     func placeDrink() {
-        drink?.removeFromParent()
+        if (!isFirst) {
+            drink?.removeFromParent()
+        }
         guard let drinkImage = UIImage(named: "beer") else {
             return
         }
         let texture = SKTexture(image: drinkImage)
         let d = SKSpriteNode(texture: texture)
 
-        var xLower = player!.position.x - 50
-        var xUpper = player!.position.x + 50
-        var yLower = player!.position.y - 50
-        var yUpper = player!.position.y + 50
+
+        var xLower = frame.width / 2 - 50
+        var xUpper = frame.width / 2 + 50
+        var yLower = frame.height / 2 - 50
+        var yUpper = frame.height / 2 + 50
+        
+        if (!isFirst) {
+            xLower = player!.position.x - 50
+            xUpper = player!.position.x + 50
+            yLower = player!.position.y - 50
+            yUpper = player!.position.y + 50
+        }
         
         if (xLower < 0) {
             xLower = 50
@@ -361,6 +374,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //d.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
         self.addChild(d)
         drink = d
+        isFirst = false
         //prevent = 0
         //drinkHitbox = CGRect(x: posX, y: posY, width: 43, height: 47)
 
