@@ -6,6 +6,7 @@
 //
 import SpriteKit
 
+var cam = SKCameraNode()
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     let setJoystickStickImageBtn = SKLabelNode()
@@ -23,7 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var labelBox: CGRect?
     var countLabel: UILabel?
     var timeLabel: UILabel?
-    var timer = 6.0
+    var timer = 100.0
     var sTime = Timer()
     
     let substrateImage = UIImage(named: "timerSubstrate")
@@ -55,12 +56,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    public func getPlayerPos() -> CGPoint {
+        return player!.position
+    }
+    
     override func didMove(to view: SKView) {
         /* Setup your scene here */
+        self.camera = cam
+        self.addChild(cam)
         let background = SKSpriteNode(imageNamed: "Artboard 1")
         background.size = CGSize(width: (frame.width), height: (frame.height))
         background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-        addChild(background)
+        self.addChild(background)
         background.zPosition = -10000
         
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
@@ -75,6 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setUpTimer()
         setUpCount()
         placeFirstDrink()
+
         //MARK: Handlers begin
         moveJoystick.on(.move) { [unowned self] joystick in
             guard let player = self.player else {
@@ -136,7 +144,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         d.zPosition = -2
         //d.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
-        addChild(d)
+        self.addChild(d)
         drink = d
     }
     
@@ -144,14 +152,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         joystickStickImageEnabled = true
         joystickSubstrateImageEnabled = true
         //only allows user to control joystick from left side of screen
-        let moveJoystickHiddenArea = TLAnalogJoystickHiddenArea(rect: CGRect(x: 0, y: 0, width: frame.midX, height: frame.height))
+        let moveJoystickHiddenArea = TLAnalogJoystickHiddenArea(rect: CGRect(x: 0, y: 0, width: 1000, height: 1000))
         
         moveJoystickHiddenArea.joystick = moveJoystick
         moveJoystick.isMoveable = true
         moveJoystickHiddenArea.strokeColor = SKColor.clear
-        addChild(moveJoystickHiddenArea)
+        cam.addChild(moveJoystickHiddenArea)
+        //cam.addChild(moveJoystick)
     }
-    
     
     func setupPlayer(_ position: CGPoint) {
         guard let playerImage = UIImage(named: "guy") else {
@@ -168,34 +176,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         p.position = position
         p.zPosition = -1
-        addChild(p)
+        self.addChild(p)
         player = p
-        
+        let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: player!)
+        cam.constraints = [ constraint ]
+
     }
     
     func setUpTimer() {
         let subTexture = SKTexture(image: substrateImage!)
         let fillTexture = SKTexture(image: fillImage!)
-        let substrate = SKSpriteNode(texture: subTexture)
-        let fill = SKSpriteNode(texture: fillTexture)
         
-        fill.size = CGSize(width: fillImage!.size.width / 2, height: fillImage!.size.height / 2)
-        substrate.size = CGSize(width: substrateImage!.size.width / 2, height: substrateImage!.size.height / 2)
+        let sub = SKSpriteNode(texture: subTexture)
+        let fil = SKSpriteNode(texture: fillTexture)
+        
+        fil.size = CGSize(width: fillImage!.size.width / 2, height: fillImage!.size.height / 2)
+        sub.size = CGSize(width: substrateImage!.size.width / 2, height: substrateImage!.size.height / 2)
         fillWidth = fillImage!.size.width
         
-        fill.zPosition = 2
-        substrate.zPosition = 1
+        fil.name = "fill"
+        sub.name = "subs"
         
-        substrate.position = CGPoint(x: (frame.width - (frame.width / 3)), y: frame.height - 40)
-        fill.position = CGPoint(x: (frame.width - (frame.width / 3)), y: frame.height - 40)
+        fil.zPosition = 2
+        sub.zPosition = 1
+    
+        //player = self.childNode(withName: "player") as? SKSpriteNode
+        sub.position = CGPoint(x: 175, y: 175)
+        fil.position = CGPoint(x: 175, y: 175)
         
-        addChild(substrate)
-        addChild(fill)
-        timerSubstrate = substrate
-        timerFill = fill
+        //fil.physicsBody = SKPhysicsBody(texture: fillTexture, size: fill!.size)
+        //sub.physicsBody = SKPhysicsBody(texture: subTexture, size: substrate!.size)
+        //fil.physicsBody!.isDynamic = false
+        //sub.physicsBody!.isDynamic = false
 
-        timerFill?.run(SKAction.resize(toWidth: 0.0, duration: 6.0))
-        timerFill?.run(SKAction.moveTo(x: timerFill!.position.x - (timerFill!.size.width / 2), duration: 6))
+
+        //timerFill?.run(SKAction.resize(toWidth: 0.0, duration: 6.0))
+        //timerFill?.run(SKAction.moveTo(x: timerFill!.position.x - (timerFill!.size.width / 2), duration: 6))
+        cam.addChild(sub)
+        cam.addChild(fil)
+    
+        timerSubstrate = sub
+        timerFill = fil
+        
         sTime = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(displayTimer), userInfo: nil, repeats: true)
     }
     
@@ -245,9 +267,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tr.zPosition = -1
         tl.zPosition = -1
  
-        addChild(tr)
-        addChild(tl)
-        
+        self.addChild(tr)
+        self.addChild(tl)
+        tableL = tl
+        tableR = tr
+
     }
 
 
@@ -335,7 +359,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         d.zPosition = -2
         //d.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
-        addChild(d)
+        self.addChild(d)
         drink = d
         //prevent = 0
         //drinkHitbox = CGRect(x: posX, y: posY, width: 43, height: 47)
@@ -353,6 +377,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tableR?.removeFromParent()
         timerSubstrate?.removeFromParent()
         timerFill?.removeFromParent()
+        cam.removeAllChildren()
         let ggScene = GGScene(size: self.size)
 
         let GGTrans = SKTransition.moveIn(with: .right, duration: 0.5)
@@ -395,6 +420,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
       /* Called before each frame is rendered */
+
+        if self.view != nil {
+            //substrate!.position = CGPoint(x: (frame.width - (frame.width / 3)), y: frame.height - 40)
+           // fill!.position = CGPoint(x: player!.position.x, y: player!.position.y)
+
+        }
         if isContact == 1 {
             app.drinkCount += 1
             if self.view != nil {
