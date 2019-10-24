@@ -85,10 +85,15 @@ class GGScene: SKScene {
             hsCountLabel = UILabel()
             hsCountLabel?.font = customFont
             hsCountLabel?.adjustsFontForContentSizeCategory = true
-            if (app.highScore <= app.drinkCount) {
-                app.highScore = app.drinkCount
+            
+            let scoreKey = "highscore"
+            let defaults = UserDefaults.standard
+            var highestScore = defaults.integer(forKey: scoreKey)
+            if (highestScore < app.drinkCount) {
+                defaults.set(app.drinkCount, forKey: scoreKey)
+                highestScore = app.drinkCount
             }
-            hsCountLabel?.text = "\(app.highScore)"
+            hsCountLabel?.text = "\(highestScore)"
             hsCountLabel?.textColor = .white
             hsCountLabel?.lineBreakMode = .byClipping
             hsCountLabel?.sizeToFit()
