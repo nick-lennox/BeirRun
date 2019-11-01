@@ -16,17 +16,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //var drinkCount: Int = 0
     var player: SKSpriteNode?
     var drink: SKSpriteNode?
-    var tableL: SKSpriteNode?
-    var tableR: SKSpriteNode?
+    var drinkShadow: SKSpriteNode?
+    var drinkTracker: SKSpriteNode?
+    
+    var squareTable: SKSpriteNode?
+    var poolTableTop: SKSpriteNode?
+    var poolTableBot: SKSpriteNode?
+    var roundTableL: SKSpriteNode?
+    var roundTableR: SKSpriteNode?
+    var pillarBaseL: SKSpriteNode?
+    var pillarBaseR: SKSpriteNode?
+    var background: SKSpriteNode?
+    
+    var tracker: SKSpriteNode?
+
     var timerFill: SKSpriteNode?
     var timerSubstrate: SKSpriteNode?
-    var drinkHitbox: CGRect?
     var labelBox: CGRect?
     var countLabel: UILabel?
     var timeLabel: UILabel?
     var timer = 100.0
     var sTime = Timer()
     var isFirst = true
+    
+    var pos = CGPoint(x: 0, y: 0)
     
     var playerFrames:[SKTexture]?
     
@@ -46,7 +59,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var sideRFrames:[SKTexture] = []
     var backFrames:[SKTexture] = []
     var prevFrames:[SKTexture] = []
-    var beerFrames:[SKTexture] = []
+    var shadowFrames:[SKTexture] = []
+    var trackerFrames:[SKTexture] = []
+    var beerAction:[SKAction] = []
 
     let moveJoystick = 🕹(withDiameter: 100)
     let rotateJoystick = TLAnalogJoystick(withDiameter: 100)
@@ -128,6 +143,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         prevBeerY = frame.height / 2
         //physicsBody?.usesPreciseCollisionDetection = true
         //Set UP
+        setUpTables()
+        placeTracker()
+
         setupJoystick()
         setUpTimer()
         setUpCount()
@@ -138,24 +156,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             guard let player = self.player else {
                 return
             }
+            player.physicsBody?.isDynamic = true
             self.aVelocity = joystick.angular
+            var speed = CGFloat(0.1)
             
             let left = CGFloat( (1 / 4) * Double.pi )
+            var drunkX = CGFloat(0.0)
+            var drunkY = CGFloat(0.0)
             
             if (self.aVelocity < left && self.aVelocity > -left) {
                 self.playerFrames = self.backFrames
+                let lowerBound = CGFloat((-1 / 20) * pow(Double(self.app.drinkCount), 2.0))
+                let upperBound = CGFloat((1 / 20) * pow(Double(self.app.drinkCount), 2.0))
+                drunkX = CGFloat.random(in: lowerBound...upperBound)
+                player.physicsBody?.applyForce(CGVector(dx: drunkX, dy: 0))
             }
                 
             else if (self.aVelocity > left && self.aVelocity < 3 * left) {
                 self.playerFrames = self.sideLFrames
+                let lowerBound = CGFloat((-1 / 50) * pow(Double(self.app.drinkCount), 2.0))
+                let upperBound = CGFloat((1 / 50) * pow(Double(self.app.drinkCount), 2.0))
+                drunkY = CGFloat.random(in: lowerBound...upperBound)
+                player.physicsBody?.applyForce(CGVector(dx: 0, dy: drunkY))
             }
                 
             else if (self.aVelocity < -left && self.aVelocity > -3 * left) {
                 self.playerFrames = self.sideRFrames
+                let lowerBound = CGFloat((-1 / 50) * pow(Double(self.app.drinkCount), 2.0))
+                let upperBound = CGFloat((1 / 50) * pow(Double(self.app.drinkCount), 2.0))
+                drunkY = CGFloat.random(in: lowerBound...upperBound)
+                player.physicsBody?.applyForce(CGVector(dx: 0, dy: drunkY))
             }
                 
             else {
                 self.playerFrames = self.frontFrames
+                let lowerBound = CGFloat((-1 / 20) * pow(Double(self.app.drinkCount), 2.0))
+                let upperBound = CGFloat((1 / 20) * pow(Double(self.app.drinkCount), 2.0))
+                drunkX = CGFloat.random(in: lowerBound...upperBound)
+                player.physicsBody?.applyForce(CGVector(dx: drunkX, dy: 0))
             }
             
             
@@ -178,7 +216,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             */
             let pVelocity = joystick.velocity;
-            var speed = CGFloat(0.1)
 
             //Stops player after game is over
             if self.sTime.isValid == false {
@@ -189,18 +226,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.position = CGPoint(x: player.position.x + (pVelocity.x * speed), y: player.position.y + (pVelocity.y * speed))
             //player.run(SKAction.rotate(toAngle: (aVelocity + .pi / 2 ), duration: 0.01, shortestUnitArc: true))
         }
-        moveJoystick.on(.begin) { [unowned self] joystick in
-            guard let player = self.player else {
-                return
-            }
-
-        }
         
         moveJoystick.on(.end) { [unowned self] joystick in
             guard let player = self.player else {
                 return
             }
             player.removeAllActions()
+            player.physicsBody?.isDynamic = false
             self.aVelocity = joystick.angular
 
             let left = CGFloat( (1 / 4) * Double.pi )
@@ -226,7 +258,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         view.isMultipleTouchEnabled = true
  
         setupPlayer(CGPoint(x: frame.midX, y: frame.midY))
-        setUpTables()
     }
     
     func setupJoystick() {
@@ -250,27 +281,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let p = SKSpriteNode(texture: texture)
         let hitboxP = SKSpriteNode(texture: hitboxTexture)
         
-        /*
-        guard let playerImage = UIImage(named: "frontwalkright") else {
-            return
-        }
-        let texture = SKTexture(image: playerImage)
-        let p = SKSpriteNode(texture: texture)
-        */
         p.size = CGSize(width: texture.size().width / 2.5, height: texture.size().height / 2.5)
         hitboxP.size = CGSize(width: hitboxTexture.size().width / 2.5, height: hitboxTexture.size().height / 2.5)
 
-        //let physicsSize = CGSize(width: 80, height: 80)
         p.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
 
-        //let hitBox = CGRect(x: 0, y:  -30, width: 40, height: 20)
-       // p.physicsBody = SKPhysicsBody(rectangleOf: hitBox.size)
         p.physicsBody = SKPhysicsBody(texture: hitboxTexture, size: hitboxP.size)
 
-        //p.physicsBody = SKPhysicsBody(texture: texture, size: CGSize(width: texture.size().width / 4.5, height: texture.size().height / 4.5))
         p.physicsBody!.affectedByGravity = false
         p.physicsBody?.contactTestBitMask = drink!.physicsBody!.collisionBitMask
-       // p.physicsBody?.isDynamic = true
 
         p.physicsBody?.allowsRotation = false
         p.name = "player"
@@ -323,6 +342,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sTime = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(displayTimer), userInfo: nil, repeats: true)
     }
     
+    func placeTracker() {
+        let trackerAtlas = SKTextureAtlas(named: "tracker")
+        
+        for index in 1 ... 2 {
+            let textureName = "arrow_\(index)"
+            let texture = trackerAtlas.textureNamed(textureName)
+            trackerFrames.append(texture)
+        }
+        let texture = trackerFrames[0]
+        tracker = SKSpriteNode(texture: texture)
+        
+        tracker!.size = CGSize(width: texture.size().width * 1.3, height: texture.size().height * 1.3)
+        
+        tracker!.position = CGPoint(x: 0, y: 0)
+        
+        
+        
+        tracker!.name = "tracker"
+        
+        tracker!.zPosition = 4
+        tracker!.run(SKAction.repeatForever(SKAction.animate(with: trackerFrames, timePerFrame: 0.2)))
+
+        cam.addChild(tracker!)
+    }
     /*
      timeLabel = UILabel()
      timeLabel?.text = "   \(timer)   "
@@ -335,40 +378,118 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      view.addSubview(timeLabel!)
      */
     func setUpTables() {
-        guard let tableImage = UIImage(named: "newbg") else {
+        guard let BGImage = UIImage(named: "newbg") else {
             return
         }
         
-        guard let collidableImage = UIImage(named: "collidable") else {
+        guard let sqtableImage = UIImage(named: "squareTable") else {
             return
         }
         
-        let texture = SKTexture(image: tableImage)
-        let collideTexture = SKTexture(image: collidableImage)
+        guard let rdtableImage = UIImage(named: "roundTable") else {
+            return
+        }
+        
+        guard let pooltableImage = UIImage(named: "poolTable") else {
+            return
+        }
+        
+        guard let plrBaseImage = UIImage(named: "pillarFlowers") else {
+            return
+        }
+        
+        let BGtexture = SKTexture(image: BGImage)
+        let sqtableTexture = SKTexture(image: sqtableImage)
+        let rdtableTexture = SKTexture(image: rdtableImage)
+        let plrBaseTexture = SKTexture(image: plrBaseImage)
+        let pooltableTexture = SKTexture(image: pooltableImage)
 
-        let tl = SKSpriteNode(texture: texture)
         
-        tl.size = CGSize(width: tableImage.size.width / 2, height: tableImage.size.height / 2)
-        tl.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-        tl.physicsBody = SKPhysicsBody(texture: collideTexture, size: tl.size)
+        let bg = SKSpriteNode(texture: BGtexture)
+        let sqtable = SKSpriteNode(texture: sqtableTexture)
+        let rdtableL = SKSpriteNode(texture: rdtableTexture)
+        let rdtableR = SKSpriteNode(texture: rdtableTexture)
+        let plrBaseL = SKSpriteNode(texture: plrBaseTexture)
+        let plrBaseR = SKSpriteNode(texture: plrBaseTexture)
+        let poolTableT = SKSpriteNode(texture: pooltableTexture)
+        let poolTableB = SKSpriteNode(texture: pooltableTexture)
+
+        //SIZE
+        bg.size = CGSize(width: BGImage.size.width / 2, height: BGImage.size.height / 2)
+        sqtable.size = CGSize(width: sqtableImage.size.width / 2, height: sqtableImage.size.height / 2)
+        rdtableL.size = CGSize(width: rdtableImage.size.width / 2, height: rdtableImage.size.height / 2)
+        rdtableR.size = CGSize(width: rdtableImage.size.width / 2, height: rdtableImage.size.height / 2)
+        plrBaseL.size = CGSize(width: plrBaseImage.size.width / 2, height: plrBaseImage.size.height / 2)
+        plrBaseR.size = CGSize(width: plrBaseImage.size.width / 2, height: plrBaseImage.size.height / 2)
+        poolTableT.size = CGSize(width: pooltableImage.size.width / 2, height: pooltableImage.size.height / 2)
+        poolTableB.size = CGSize(width: pooltableImage.size.width / 2, height: pooltableImage.size.height / 2)
+
+        //POSITION
+        bg.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        sqtable.position = CGPoint(x: bg.position.x - 50, y: bg.position.y - 120)
+        rdtableL.position = CGPoint(x: bg.position.x - 340, y: bg.position.y - 120)
+        rdtableR.position = CGPoint(x: bg.position.x + 275, y: bg.position.y - 120)
+        plrBaseL.position = CGPoint(x: bg.position.x - 228, y: bg.position.y + 40)
+        plrBaseR.position = CGPoint(x: bg.position.x + 130, y: bg.position.y + 42)
+        poolTableT.position = CGPoint(x: bg.position.x + 614, y: bg.position.y + 9)
+        poolTableB.position = CGPoint(x: bg.position.x + 614, y: bg.position.y - 155)
+
+        //PHYSICS BODY
+        sqtable.physicsBody = SKPhysicsBody(texture: sqtableTexture, size: sqtable.size)
+        rdtableL.physicsBody = SKPhysicsBody(texture: rdtableTexture, size: rdtableL.size)
+        rdtableR.physicsBody = SKPhysicsBody(texture: rdtableTexture, size: rdtableR.size)
+        plrBaseL.physicsBody = SKPhysicsBody(texture: plrBaseTexture, size: plrBaseL.size)
+        plrBaseR.physicsBody = SKPhysicsBody(texture: plrBaseTexture, size: plrBaseR.size)
+        poolTableT.physicsBody = SKPhysicsBody(texture: pooltableTexture, size: poolTableT.size)
+        poolTableB.physicsBody = SKPhysicsBody(texture: pooltableTexture, size: poolTableB.size)
+        
         //tr.physicsBody?.collisionBitMask = drink!.physicsBody!.collisionBitMask
         //tl.physicsBody?.collisionBitMask = drink!.physicsBody!.collisionBitMask
 
-        tl.physicsBody!.affectedByGravity = false
-        tl.physicsBody!.isDynamic = false
-        tl.name = "table"
-        
-        let Lx = CGFloat.random(in: 100...((frame.width / 2) - 50))
-        let Ly = CGFloat.random(in: 100...(frame.height - 100))
-        
-        
-        tl.position = CGPoint(x: Lx, y: Ly)
-        
-        tl.zPosition = -3
- 
-        addChild(tl)
-        tableL = tl
-       // player!.physicsBody?.contactTestBitMask = tableL!.physicsBody!.collisionBitMask
+        sqtable.physicsBody!.affectedByGravity = false
+        rdtableL.physicsBody!.affectedByGravity = false
+        rdtableR.physicsBody!.affectedByGravity = false
+        plrBaseL.physicsBody!.affectedByGravity = false
+        plrBaseR.physicsBody!.affectedByGravity = false
+        poolTableT.physicsBody!.affectedByGravity = false
+        poolTableB.physicsBody!.affectedByGravity = false
+
+        sqtable.physicsBody!.isDynamic = false
+        rdtableL.physicsBody!.isDynamic = false
+        rdtableR.physicsBody!.isDynamic = false
+        plrBaseL.physicsBody!.isDynamic = false
+        plrBaseR.physicsBody!.isDynamic = false
+        poolTableT.physicsBody!.isDynamic = false
+        poolTableB.physicsBody!.isDynamic = false
+
+        bg.zPosition = -99999
+        sqtable.zPosition = -3
+        rdtableL.zPosition = -3
+        rdtableR.zPosition = -3
+        plrBaseL.zPosition = -3
+        plrBaseR.zPosition = -3
+        poolTableT.zPosition = -3
+        poolTableB.zPosition = -3
+
+        addChild(bg)
+        addChild(sqtable)
+        addChild(rdtableL)
+        addChild(rdtableR)
+        addChild(plrBaseL)
+        addChild(plrBaseR)
+        addChild(poolTableT)
+        addChild(poolTableB)
+
+        background = bg
+        squareTable = sqtable
+        roundTableL = rdtableL
+        roundTableR = rdtableR
+        pillarBaseL = plrBaseL
+        pillarBaseR = plrBaseR
+        poolTableTop = poolTableT
+        poolTableBot = poolTableB
+
+        //player!.physicsBody?.contactTestBitMask = tableL!.physicsBody!.collisionBitMask
        // player!.physicsBody?.contactTestBitMask = tableR!.physicsBody!.collisionBitMask
     }
 
@@ -389,6 +510,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 player!.physicsBody?.isDynamic = false
                 drink!.removeFromParent()
+                drinkShadow!.removeFromParent()
                 endGame()
             }
         }
@@ -447,20 +569,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             drink?.removeFromParent()
         }
         
-        let beerAtlas = SKTextureAtlas(named: "beer")
+        let beer = SKTexture(image: beerHitbox!)
+        let shadowAtlas = SKTextureAtlas(named: "shadow")
+        
         
         for index in 1 ... 3 {
-            let textureName = "beer_\(index)"
-            let texture = beerAtlas.textureNamed(textureName)
-            beerFrames.append(texture)
+            let textureName = "shadow_\(index)"
+            let texture = shadowAtlas.textureNamed(textureName)
+            shadowFrames.append(texture)
         }
+ 
         
-        let d = SKSpriteNode()
-        d.size = CGSize(width: beerFrames[0].size().width, height: beerFrames[0].size().height)
-        d.run(SKAction.repeatForever(SKAction.animate(with: beerFrames, timePerFrame: 0.2)))
+        let d = SKSpriteNode(texture: beer)
+        let shadow = SKSpriteNode()
+        //d.size = CGSize(width: beerFrames[0].size().width, height: beerFrames[0].size().height)
+        beerAction.append(SKAction.moveBy(x: 0.0, y: 5.0, duration: 0.15))
+        beerAction.append(SKAction.moveBy(x: 0.0, y: -5.0, duration: 0.15))
+            
+        d.run(SKAction.repeatForever(SKAction.sequence(beerAction)))
         
-        let texture = SKTexture(image: beerHitbox!)
-
         var xLower = frame.width / 2 - 50
         var xUpper = frame.width / 2 + 50
         var yLower = frame.height / 2 - 50
@@ -487,7 +614,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         let rect = CGRect(x: xLower, y: yLower, width: xUpper, height: yUpper)
-        var pos = CGPoint(x: 0, y: 0)
         
         repeat {
             let posX = CGFloat.random(in: 100...(frame.width - 100))
@@ -496,15 +622,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         while (rect.contains(pos))
         
+        d.size = CGSize(width: d.size.width / 2, height: d.size.width / 2)
         d.position = pos
-        d.physicsBody = SKPhysicsBody(texture: beerFrames[0], size: d.size)
+        
+        shadow.position = CGPoint(x: d.position.x, y: d.position.y - 5.0)
+        shadow.size = d.size
+        shadow.run(SKAction.repeatForever(SKAction.animate(with: shadowFrames, timePerFrame: 0.1)))
+        d.physicsBody = SKPhysicsBody(texture: beer, size: d.size)
         d.physicsBody!.affectedByGravity = false
         d.name = "drink"
         
-
         d.zPosition = -2
+        shadow.zPosition = -2
         //d.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
         self.addChild(d)
+        self.addChild(shadow)
+        
+        drinkShadow = shadow
         drink = d
         isFirst = false
 
@@ -518,8 +652,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player?.removeFromParent()
         timeLabel?.removeFromSuperview()
         countLabel?.removeFromSuperview()
-        tableL?.removeFromParent()
-        tableR?.removeFromParent()
+        background?.removeFromParent()
+        squareTable?.removeFromParent()
         timerSubstrate?.removeFromParent()
         timerFill?.removeFromParent()
         cam.removeAllChildren()
@@ -546,9 +680,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.node?.name == "drink" {
             isContact = 1
             drink!.removeFromParent()
+            drinkShadow!.removeFromParent()
             placeDrink()
             if timer > 0 {
-                timer = 6 - Double(app.drinkCount)*(0.1)
+                timer = 20 - Double(app.drinkCount)*(0.1)
                 timerFill?.removeAllActions()
                 timerFill?.run(SKAction.resize(toWidth: fillWidth / 2, duration: 0.0))
                 timerFill?.run(SKAction.moveTo(x: timerSubstrate!.position.x, duration: 0.0))
@@ -569,13 +704,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-      /* Called before each frame is rendered */
+        //////////////////////////////////////////////
+        ///           TRACKER HANDLING
+        //////////////////////////////////////////////
 
-        if self.view != nil {
-            //substrate!.position = CGPoint(x: (frame.width - (frame.width / 3)), y: frame.height - 40)
-           // fill!.position = CGPoint(x: player!.position.x, y: player!.position.y)
-
+        if (abs(drink!.position.x - player!.position.x) < frame.width / 2 && abs(drink!.position.y - player!.position.y) < frame.height / 2) {
+            tracker!.isHidden = true
         }
+        else {
+            tracker!.isHidden = false
+        }
+  
+        tracker!.position = CGPoint(x: (pos.x - player!.position.x) / 4, y: (pos.y - player!.position.y) / 4)
+        let angle = atan((pos.y - player!.position.y) / (pos.x - player!.position.x))
+        if (player!.position.x >= drink!.position.x) {
+            tracker!.zRotation = angle + CGFloat(Double.pi / 2)
+        }
+        else {
+            tracker!.zRotation = angle - CGFloat(Double.pi / 2)
+        }
+        
+        
+        
         if isContact == 1 {
             app.drinkCount += 1
             if self.view != nil {
@@ -584,7 +734,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             isContact = 0
         }
-        if (app.drinkCount > 1) {
+        if (app.drinkCount > 3) {
+            /*
             var variance = CGFloat(100 / app.drinkCount)
             let squared = CGFloat(app.drinkCount*app.drinkCount)
             variance = squared / variance
@@ -594,6 +745,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let random = CGFloat.random(in: 0...variance)
             let constraint = SKConstraint.distance(SKRange(constantValue: random), to: player!)
             cam.constraints = [ constraint ]
+ */
         }
     }
 }
