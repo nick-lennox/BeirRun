@@ -3,7 +3,6 @@
 //  BeirRun
 //
 //  Created by Nicholas Lennox on 9/27/19.
-//  Copyright © 2019 BeirRunRCOS. All rights reserved.
 //
 import SpriteKit
 
