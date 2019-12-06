@@ -1,9 +1,6 @@
 //
 //  GameScene.swift
 //
-//  Created by Dmitriy Mitrophanskiy on 28.09.14.
-//  Copyright (c) 2014 Dmitriy Mitrophanskiy. All rights reserved.
-//
 import SpriteKit
 
 var cam = SKCameraNode()
@@ -19,6 +16,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var drinkShadow: SKSpriteNode?
     var drinkTracker: SKSpriteNode?
     
+    var benchTop: SKSpriteNode?
+    var benchMid: SKSpriteNode?
+    var benchBot: SKSpriteNode?
     var squareTable: SKSpriteNode?
     var poolTableTop: SKSpriteNode?
     var poolTableBot: SKSpriteNode?
@@ -27,7 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var pillarBaseL: SKSpriteNode?
     var pillarBaseR: SKSpriteNode?
     var background: SKSpriteNode?
-    
+    var boundary: SKSpriteNode?
     var tracker: SKSpriteNode?
 
     var timerFill: SKSpriteNode?
@@ -366,19 +366,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         cam.addChild(tracker!)
     }
-    /*
-     timeLabel = UILabel()
-     timeLabel?.text = "   \(timer)   "
-     timeLabel?.textColor = .white
-     timeLabel?.font = UIFont.boldSystemFont(ofSize:36)
-     timeLabel?.frame.size.width = 0
-     timeLabel?.lineBreakMode = .byClipping
-     timeLabel?.sizeToFit()
-     timeLabel?.center = CGPoint(x: frame.width/4, y: 50)
-     view.addSubview(timeLabel!)
-     */
     func setUpTables() {
         guard let BGImage = UIImage(named: "newbg") else {
+            return
+        }
+        
+        guard let benchImage = UIImage(named: "bench") else {
             return
         }
         
@@ -403,9 +396,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let rdtableTexture = SKTexture(image: rdtableImage)
         let plrBaseTexture = SKTexture(image: plrBaseImage)
         let pooltableTexture = SKTexture(image: pooltableImage)
+        let benchTexture = SKTexture(image: benchImage)
 
         
         let bg = SKSpriteNode(texture: BGtexture)
+        //let bound = SKSpriteNode(texture: collidableTexture)
         let sqtable = SKSpriteNode(texture: sqtableTexture)
         let rdtableL = SKSpriteNode(texture: rdtableTexture)
         let rdtableR = SKSpriteNode(texture: rdtableTexture)
@@ -413,9 +408,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let plrBaseR = SKSpriteNode(texture: plrBaseTexture)
         let poolTableT = SKSpriteNode(texture: pooltableTexture)
         let poolTableB = SKSpriteNode(texture: pooltableTexture)
+        let benchT = SKSpriteNode(texture: benchTexture)
+        let benchM = SKSpriteNode(texture: benchTexture)
+        let benchB = SKSpriteNode(texture: benchTexture)
 
         //SIZE
         bg.size = CGSize(width: BGImage.size.width / 2, height: BGImage.size.height / 2)
+        //bound.size = CGSize(width: BGImage.size.width / 2, height: BGImage.size.height / 2)
         sqtable.size = CGSize(width: sqtableImage.size.width / 2, height: sqtableImage.size.height / 2)
         rdtableL.size = CGSize(width: rdtableImage.size.width / 2, height: rdtableImage.size.height / 2)
         rdtableR.size = CGSize(width: rdtableImage.size.width / 2, height: rdtableImage.size.height / 2)
@@ -423,9 +422,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         plrBaseR.size = CGSize(width: plrBaseImage.size.width / 2, height: plrBaseImage.size.height / 2)
         poolTableT.size = CGSize(width: pooltableImage.size.width / 2, height: pooltableImage.size.height / 2)
         poolTableB.size = CGSize(width: pooltableImage.size.width / 2, height: pooltableImage.size.height / 2)
+        benchT.size = CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5)
+        benchM.size = CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5)
+        benchB.size = CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5)
 
+        
         //POSITION
         bg.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        //bound.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
         sqtable.position = CGPoint(x: bg.position.x - 50, y: bg.position.y - 120)
         rdtableL.position = CGPoint(x: bg.position.x - 340, y: bg.position.y - 120)
         rdtableR.position = CGPoint(x: bg.position.x + 275, y: bg.position.y - 120)
@@ -433,6 +437,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         plrBaseR.position = CGPoint(x: bg.position.x + 130, y: bg.position.y + 42)
         poolTableT.position = CGPoint(x: bg.position.x + 614, y: bg.position.y + 9)
         poolTableB.position = CGPoint(x: bg.position.x + 614, y: bg.position.y - 155)
+        benchT.position = CGPoint(x: bg.position.x - 705, y: bg.position.y - 85)
+        benchM.position = CGPoint(x: bg.position.x - 705, y: bg.position.y - 93)
+        benchB.position = CGPoint(x: bg.position.x - 705, y: bg.position.y - 105)
 
         //PHYSICS BODY
         sqtable.physicsBody = SKPhysicsBody(texture: sqtableTexture, size: sqtable.size)
@@ -442,7 +449,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         plrBaseR.physicsBody = SKPhysicsBody(texture: plrBaseTexture, size: plrBaseR.size)
         poolTableT.physicsBody = SKPhysicsBody(texture: pooltableTexture, size: poolTableT.size)
         poolTableB.physicsBody = SKPhysicsBody(texture: pooltableTexture, size: poolTableB.size)
-        
+        benchT.physicsBody = SKPhysicsBody(texture: benchTexture, size: benchT.size)
+        benchM.physicsBody = SKPhysicsBody(texture: benchTexture, size: benchM.size)
+        benchB.physicsBody = SKPhysicsBody(texture: benchTexture, size: benchB.size)
+
         //tr.physicsBody?.collisionBitMask = drink!.physicsBody!.collisionBitMask
         //tl.physicsBody?.collisionBitMask = drink!.physicsBody!.collisionBitMask
 
@@ -453,6 +463,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         plrBaseR.physicsBody!.affectedByGravity = false
         poolTableT.physicsBody!.affectedByGravity = false
         poolTableB.physicsBody!.affectedByGravity = false
+        benchT.physicsBody!.affectedByGravity = false
+        benchM.physicsBody!.affectedByGravity = false
+        benchB.physicsBody!.affectedByGravity = false
 
         sqtable.physicsBody!.isDynamic = false
         rdtableL.physicsBody!.isDynamic = false
@@ -461,8 +474,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         plrBaseR.physicsBody!.isDynamic = false
         poolTableT.physicsBody!.isDynamic = false
         poolTableB.physicsBody!.isDynamic = false
+        benchT.physicsBody!.isDynamic = false
+        benchM.physicsBody!.affectedByGravity = false
+        benchB.physicsBody!.affectedByGravity = false
 
-        bg.zPosition = -99999
+
+        bg.zPosition = -99
+        //bound.zPosition = -1000000000000
         sqtable.zPosition = -3
         rdtableL.zPosition = -3
         rdtableR.zPosition = -3
@@ -470,8 +488,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         plrBaseR.zPosition = -3
         poolTableT.zPosition = -3
         poolTableB.zPosition = -3
+        benchT.zPosition = -3
+        benchM.zPosition = -3
+        benchB.zPosition = -3
+
 
         addChild(bg)
+        //addChild(bound)
         addChild(sqtable)
         addChild(rdtableL)
         addChild(rdtableR)
@@ -479,8 +502,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(plrBaseR)
         addChild(poolTableT)
         addChild(poolTableB)
+        addChild(benchT)
+        addChild(benchM)
+        addChild(benchB)
 
         background = bg
+        //boundary = bound
         squareTable = sqtable
         roundTableL = rdtableL
         roundTableR = rdtableR
@@ -488,6 +515,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pillarBaseR = plrBaseR
         poolTableTop = poolTableT
         poolTableBot = poolTableB
+        benchTop = benchT
+        benchMid = benchM
+        benchBot = benchB
 
         //player!.physicsBody?.contactTestBitMask = tableL!.physicsBody!.collisionBitMask
        // player!.physicsBody?.contactTestBitMask = tableR!.physicsBody!.collisionBitMask
@@ -656,6 +686,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         squareTable?.removeFromParent()
         timerSubstrate?.removeFromParent()
         timerFill?.removeFromParent()
+        self.removeAllChildren()
         cam.removeAllChildren()
         let ggScene = GGScene(size: self.size)
 
@@ -683,7 +714,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             drinkShadow!.removeFromParent()
             placeDrink()
             if timer > 0 {
-                timer = 20 - Double(app.drinkCount)*(0.1)
+                timer = 5 - Double(app.drinkCount)*(0.1)
                 timerFill?.removeAllActions()
                 timerFill?.run(SKAction.resize(toWidth: fillWidth / 2, duration: 0.0))
                 timerFill?.run(SKAction.moveTo(x: timerSubstrate!.position.x, duration: 0.0))
@@ -733,19 +764,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 countLabel?.text = "     " + num + "     "
             }
             isContact = 0
-        }
-        if (app.drinkCount > 3) {
-            /*
-            var variance = CGFloat(100 / app.drinkCount)
-            let squared = CGFloat(app.drinkCount*app.drinkCount)
-            variance = squared / variance
-            if (variance > 50) {
-                variance = 50
-            }
-            let random = CGFloat.random(in: 0...variance)
-            let constraint = SKConstraint.distance(SKRange(constantValue: random), to: player!)
-            cam.constraints = [ constraint ]
- */
         }
     }
 }
