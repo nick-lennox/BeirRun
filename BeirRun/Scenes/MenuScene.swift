@@ -12,6 +12,10 @@ class MenuScene: SKScene {
     var playAgain = UIButton.init(type: .roundedRect)
     var background = SKSpriteNode()
     var playText = SKSpriteNode()
+    /*
+     Nick Lennox
+     Displays the menu scene
+     */
     override func didMove(to view: SKView) {
         if view == self.view {
             let menuBG = SKTexture(imageNamed: "menu")

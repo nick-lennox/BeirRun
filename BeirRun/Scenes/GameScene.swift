@@ -97,6 +97,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return player!.position
     }
     
+    /*
+     Nick Lennox - Jared O'Connor
+     Handles the animation and distorted movement.
+     */
     override func didMove(to view: SKView) {
         /* Setup your scene here */
         
@@ -260,6 +264,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupPlayer(CGPoint(x: frame.midX, y: frame.midY))
     }
     
+    /*
+     Nick Lennox
+     Adds the joystick image to the screen
+     */
     func setupJoystick() {
         joystickStickImageEnabled = true
         joystickSubstrateImageEnabled = true
@@ -273,6 +281,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //cam.addChild(moveJoystick)
     }
     
+    /*
+     Jared O'Connor
+     Creates the player and the player hitbox
+     */
     func setupPlayer(_ position: CGPoint) {
         //let pImage = UIImage(named: "frontwalkright")
         let hitBox = UIImage(named: "hitBox1")
@@ -303,6 +315,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    /*
+     Nick Lennox
+     Places the timer and the timer substrate on the screen and starts the animation to reduce the time
+     */
     func setUpTimer() {
         let subTexture = SKTexture(image: substrateImage!)
         let fillTexture = SKTexture(image: fillImage!)
@@ -342,6 +358,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sTime = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(displayTimer), userInfo: nil, repeats: true)
     }
     
+    /*
+     Nick Lennox
+     Adds a tracker when the drink is off the screen that points in the direction of the drink
+     */
     func placeTracker() {
         let trackerAtlas = SKTextureAtlas(named: "tracker")
         
@@ -366,6 +386,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         cam.addChild(tracker!)
     }
+    
+    /*
+     Jared O'Connor
+     Function to add collidable objects
+    */
     func setUpTables() {
         guard let BGImage = UIImage(named: "newbg") else {
             return
@@ -524,7 +549,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
 
-    
+    /*
+     Nick Lennox
+     */
     @objc func displayTimer() {
         if view == self.view {
             // Load the SKScene from 'GameScene.sks'
@@ -546,6 +573,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    /*
+     Nick Lennox
+     Displays and increments the total drinks collected
+     */
     func setUpCount() {
         if let view = self.view {
             // Load the SKScene from 'GameScene.sks'
@@ -564,36 +595,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             view.addSubview(countLabel!)
         }
     }
-    /*
-    func placeFirstDrink() {
-        guard let drinkImage = UIImage(named: "beer") else {
-            return
-        }
-        let texture = SKTexture(image: drinkImage)
-        let d = SKSpriteNode(texture: texture)
-        
-        /*
-         let posX = CGFloat.random(in: 100...(frame.width - 100))
-         let posY = CGFloat.random(in: 100...(frame.height - 100))
-         d.position = CGPoint(x: posX, y: posY)
-         */
-        
-        let posX = CGFloat.random(in: 100...(frame.width - 100))
-        let posY = CGFloat.random(in: 50...(frame.height - 50))
-        d.position = CGPoint(x: posX, y: posY)
-        d.size = CGSize(width: (43), height: (47))
-        d.physicsBody = SKPhysicsBody(texture: texture, size: d.size)
-        d.physicsBody!.affectedByGravity = false
-        d.name = "drink"
-        
-        
-        d.zPosition = -2
-        //d.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
-        self.addChild(d)
-        drink = d
-    }
-    */
     
+    /*
+     Jared O'Connor
+     Places drink every time the player makes contact with the previous drink
+     */
     func placeDrink() {
         if (!isFirst) {
             drink?.removeFromParent()
@@ -671,13 +677,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         drinkShadow = shadow
         drink = d
         isFirst = false
-
-
     }
     
+    /*
+     Jared O'Connor
+     Remove all nodes involved in gameplay
+     */
     func endGame() {
         //let newScene = GGScene(fileNamed: "GGScene.swift")!
-
         moveJoystick.stop()
         player?.removeFromParent()
         timeLabel?.removeFromSuperview()
@@ -693,20 +700,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let GGTrans = SKTransition.moveIn(with: .right, duration: 0.5)
         self.view?.presentScene(ggScene, transition: GGTrans)
        // self.view?.presentScene(gameOverScene, transition: reveal)
-        
-        /*
-        gameOver = UILabel()
-        gameOver?.text = " GAME OVER "
-        gameOver?.font = UIFont.boldSystemFont(ofSize:100)
-        //gameOver?.frame.size.width = 0
-        gameOver?.lineBreakMode = .byClipping
-        gameOver?.sizeToFit()
-        gameOver?.center = CGPoint(x: frame.width/2, y: frame.height/2)
-        
-        view?.addSubview(gameOver!)
-        */
     }
     
+    /*
+     Nick Lennox - Jared O'Connor
+     When the player makes contact with a drink, that drink is removed, a new one is placed, and the timer is reset
+     */
     func didBegin(_ contact: SKPhysicsContact) {
         if contact.bodyA.node?.name == "drink" {
             isContact = 1
@@ -723,17 +722,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 timerFill?.run(SKAction.moveTo(x: timerSubstrate!.position.x - (fillWidth / 4), duration: timer))
             }
         }
-            /*
-        else if contact.bodyB.node?.name == "table" {
-            app.drinkCount = 99
-        }
- */
     }
     
+    /*
+     Nick Lennox
+     */
     func getDrinkCount() -> Int {
         return (app.drinkCount)
     }
     
+    /*
+     Nick Lennox
+     Updates the tracker angle and the drinkcount
+     */
     override func update(_ currentTime: TimeInterval) {
         //////////////////////////////////////////////
         ///           TRACKER HANDLING
@@ -765,11 +766,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             isContact = 0
         }
-    }
-}
-
-extension UIColor {
-    static func random() -> UIColor {
-        return UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1)
     }
 }
