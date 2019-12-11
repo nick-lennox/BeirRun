@@ -18,7 +18,10 @@ class GGScene: SKScene {
 
     let app: AppDelegate = UIApplication.shared.delegate as! AppDelegate
 
-
+    /*
+     Nick Lennox - Jared O'Connor
+     Displays the Game Over Scene
+     */
     override func didMove(to view: SKView) {
         if view == self.view {
             guard let GGbackground = UIImage(named: "GGbackground") else {
@@ -104,6 +107,7 @@ class GGScene: SKScene {
             view.addSubview(hScoreLabel!)
         }
     }
+    
     
     @objc func restartAction(_ sender:UIButton!)
     {
