@@ -11,23 +11,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let app: AppDelegate = UIApplication.shared.delegate as! AppDelegate
 
     //var drinkCount: Int = 0
-    var player: SKSpriteNode?
+    var player: Player?
     var drink: SKSpriteNode?
     var drinkShadow: SKSpriteNode?
     var drinkTracker: SKSpriteNode?
     
-    var benchTop: SKSpriteNode?
-    var benchMid: SKSpriteNode?
-    var benchBot: SKSpriteNode?
-    var squareTable: SKSpriteNode?
-    var poolTableTop: SKSpriteNode?
-    var poolTableBot: SKSpriteNode?
-    var roundTableL: SKSpriteNode?
-    var roundTableR: SKSpriteNode?
-    var pillarBaseL: SKSpriteNode?
-    var pillarBaseR: SKSpriteNode?
-    var background: SKSpriteNode?
-    var boundary: SKSpriteNode?
+    var background:SKSpriteNode?
+    //var pillarBaseL: SKSpriteNode?
+    //var pillarBaseR: SKSpriteNode?
     var tracker: SKSpriteNode?
 
     var timerFill: SKSpriteNode?
@@ -53,20 +44,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let sideStandingL = UIImage(named: "sideStillL")
     
     let beerHitbox = UIImage(named: "beer1")
-    
-    var frontFrames:[SKTexture] = []
-    var sideLFrames:[SKTexture] = []
-    var sideRFrames:[SKTexture] = []
-    var backFrames:[SKTexture] = []
-    var prevFrames:[SKTexture] = []
+
     var shadowFrames:[SKTexture] = []
     var trackerFrames:[SKTexture] = []
     var beerAction:[SKAction] = []
 
     let moveJoystick = 🕹(withDiameter: 100)
     let rotateJoystick = TLAnalogJoystick(withDiameter: 100)
-    
-    //let background = SKSpriteNode(imageNamed: "newbg" )
 
     var isContact = 0
     var fillWidth = CGFloat(0)
@@ -94,7 +78,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     public func getPlayerPos() -> CGPoint {
-        return player!.position
+        return player!.p.position
     }
     
     /*
@@ -103,7 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     override func didMove(to view: SKView) {
         /* Setup your scene here */
-        
+        /*
         let frontWalkAtlas = SKTextureAtlas(named: "frontWalk")
         let sideWalkLAtlas = SKTextureAtlas(named: "sideWalkLeft")
         let sideWalkRAtlas = SKTextureAtlas(named: "sideWalkRight")
@@ -132,6 +116,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //let texture = playerAtlas.textureNamed("frontstanding")
         //frames.append(texture)
         prevFrames = frontFrames
+        */
  
         self.camera = cam
         self.addChild(cam)
@@ -154,16 +139,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setUpTimer()
         setUpCount()
         placeDrink()
+        setupPlayer()
 
         //MARK: Handlers begin
         moveJoystick.on(.move) { [unowned self] joystick in
             guard let player = self.player else {
                 return
             }
-            player.physicsBody?.isDynamic = true
             self.aVelocity = joystick.angular
             var speed = CGFloat(0.1)
-            
+            player.move(self.aVelocity)
+            /*
             let left = CGFloat( (1 / 4) * Double.pi )
             var drunkX = CGFloat(0.0)
             var drunkY = CGFloat(0.0)
@@ -210,6 +196,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 self.prevFrames = self.playerFrames!
             }
+ */
             
             /*
             if (player.texture == self.playerFrames![0]) {
@@ -219,7 +206,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 player.run(SKAction.setTexture(self.playerFrames![0]))
             }
             */
-            let pVelocity = joystick.velocity;
+            let pVelocity = joystick.velocity
 
             //Stops player after game is over
             if self.sTime.isValid == false {
@@ -227,7 +214,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //aVelocity = 0.0
             }
             
-            player.position = CGPoint(x: player.position.x + (pVelocity.x * speed), y: player.position.y + (pVelocity.y * speed))
+            player.p.position = CGPoint(x: player.p.position.x + (pVelocity.x * speed), y: player.p.position.y + (pVelocity.y * speed))
             //player.run(SKAction.rotate(toAngle: (aVelocity + .pi / 2 ), duration: 0.01, shortestUnitArc: true))
         }
         
@@ -235,33 +222,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             guard let player = self.player else {
                 return
             }
-            player.removeAllActions()
-            player.physicsBody?.isDynamic = false
+            player.p.removeAllActions()
+
             self.aVelocity = joystick.angular
 
             let left = CGFloat( (1 / 4) * Double.pi )
             
             if (self.aVelocity < left && self.aVelocity > -left) {
-                player.texture = SKTexture(image: self.standingBack!)
+                player.p.texture = SKTexture(image: self.standingBack!)
             }
             
             else if (self.aVelocity > left && self.aVelocity < 3 * left) {
-                player.texture = SKTexture(image: self.sideStandingL!)
+                player.p.texture = SKTexture(image: self.sideStandingL!)
             }
                 
             else if (self.aVelocity < -left && self.aVelocity > -3 * left) {
-                player.texture = SKTexture(image: self.sideStandingR!)
+                player.p.texture = SKTexture(image: self.sideStandingR!)
             }
                 
             else {
-                player.texture = SKTexture(image: self.standingP!)
+                player.p.texture = SKTexture(image: self.standingP!)
             }
 
         }
 
         view.isMultipleTouchEnabled = true
  
-        setupPlayer(CGPoint(x: frame.midX, y: frame.midY))
+        //setupPlayer(CGPoint(x: frame.midX, y: frame.midY))
     }
     
     /*
@@ -285,34 +272,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Jared O'Connor
      Creates the player and the player hitbox
      */
-    func setupPlayer(_ position: CGPoint) {
-        //let pImage = UIImage(named: "frontwalkright")
-        let hitBox = UIImage(named: "hitBox1")
-        let texture = SKTexture(image: standingP!)
-        let hitboxTexture = SKTexture(image: hitBox!)
-        let p = SKSpriteNode(texture: texture)
-        let hitboxP = SKSpriteNode(texture: hitboxTexture)
-        
-        p.size = CGSize(width: texture.size().width / 2.5, height: texture.size().height / 2.5)
-        hitboxP.size = CGSize(width: hitboxTexture.size().width / 2.5, height: hitboxTexture.size().height / 2.5)
-
-        p.position = CGPoint(x: frame.width / 2, y: frame.height / 2)
-
-        p.physicsBody = SKPhysicsBody(texture: hitboxTexture, size: hitboxP.size)
-
-        p.physicsBody!.affectedByGravity = false
-        p.physicsBody?.contactTestBitMask = drink!.physicsBody!.collisionBitMask
-
-        p.physicsBody?.allowsRotation = false
-        p.name = "player"
-        
-        p.zPosition = -1
-        self.addChild(p)
+    func setupPlayer() {
+        let p = Player()
+    
+        self.addChild(p.p)
         player = p
-        let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: player!)
+        player!.p.physicsBody!.contactTestBitMask = drink!.physicsBody!.collisionBitMask
+        let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: player!.p)
         cam.constraints = [ constraint ]
-        
-        
     }
     
     /*
@@ -322,7 +289,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setUpTimer() {
         let subTexture = SKTexture(image: substrateImage!)
         let fillTexture = SKTexture(image: fillImage!)
-        
+            
         let sub = SKSpriteNode(texture: subTexture)
         let fil = SKSpriteNode(texture: fillTexture)
         
@@ -392,7 +359,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Function to add collidable objects
     */
     func setUpTables() {
-        guard let BGImage = UIImage(named: "newbg") else {
+        
+        guard let BGImage = UIImage(named: "noncollidable") else {
             return
         }
         
@@ -412,140 +380,86 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
         
-        guard let plrBaseImage = UIImage(named: "pillarFlowers") else {
+        guard let leftBoundaryImage = UIImage(named: "leftBoundary") else {
             return
         }
         
+        guard let rightBoundaryImage = UIImage(named: "rightBoundary") else {
+            return
+        }
+        
+    //    guard let plrBaseImage = UIImage(named: "pillarFlowers") else {
+     //       return
+     //   }
+
         let BGtexture = SKTexture(image: BGImage)
-        let sqtableTexture = SKTexture(image: sqtableImage)
-        let rdtableTexture = SKTexture(image: rdtableImage)
-        let plrBaseTexture = SKTexture(image: plrBaseImage)
-        let pooltableTexture = SKTexture(image: pooltableImage)
-        let benchTexture = SKTexture(image: benchImage)
 
         
         let bg = SKSpriteNode(texture: BGtexture)
-        //let bound = SKSpriteNode(texture: collidableTexture)
-        let sqtable = SKSpriteNode(texture: sqtableTexture)
-        let rdtableL = SKSpriteNode(texture: rdtableTexture)
-        let rdtableR = SKSpriteNode(texture: rdtableTexture)
-        let plrBaseL = SKSpriteNode(texture: plrBaseTexture)
-        let plrBaseR = SKSpriteNode(texture: plrBaseTexture)
-        let poolTableT = SKSpriteNode(texture: pooltableTexture)
-        let poolTableB = SKSpriteNode(texture: pooltableTexture)
-        let benchT = SKSpriteNode(texture: benchTexture)
-        let benchM = SKSpriteNode(texture: benchTexture)
-        let benchB = SKSpriteNode(texture: benchTexture)
+        let benchT = CollidableObject(benchImage, CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5), CGPoint(x: -250, y: 180), -3)
+        let benchM = CollidableObject(benchImage, CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5), CGPoint(x: -250, y: 110), -3)
+        let benchB = CollidableObject(benchImage, CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5), CGPoint(x: -250, y: 40), -3)
+        
+        let sqTable = CollidableObject(sqtableImage, CGSize(width: sqtableImage.size.width / 2, height: sqtableImage.size.height / 2), CGPoint(x: 350, y: 35), -3)
+        let rdTableL = CollidableObject(rdtableImage, CGSize(width: rdtableImage.size.width / 2, height: rdtableImage.size.height / 2), CGPoint(x: 75, y: 35), -3)
+        let rdTableR = CollidableObject(rdtableImage, CGSize(width: rdtableImage.size.width / 2, height: rdtableImage.size.height / 2), CGPoint(x: 625, y: 35), -3)
+        //let plrBaseL = SKSpriteNode(texture: plrBaseTexture)
+        //let plrBaseR = SKSpriteNode(texture: plrBaseTexture)
+        let poolTableT = CollidableObject(pooltableImage, CGSize(width: pooltableImage.size.width / 2, height: pooltableImage.size.height / 2), CGPoint(x: 1025, y: 125), -3)
+        let poolTableB = CollidableObject(pooltableImage, CGSize(width: pooltableImage.size.width / 2, height: pooltableImage.size.height / 2), CGPoint(x: 1025, y: -30), -3)
+        
+        let leftBoundary = CollidableObject(leftBoundaryImage, CGSize(width: leftBoundaryImage.size.width / 2, height: leftBoundaryImage.size.height / 2), CGPoint(x: 448, y: 158), -3)
+        
+        let rightBoundary = CollidableObject(rightBoundaryImage, CGSize(width: leftBoundaryImage.size.width / 2, height: leftBoundaryImage.size.height / 2), CGPoint(x: 448, y: 158), -3)
+      //  upperCollidable.changePBType(upperBoundaryImage)
 
         //SIZE
         bg.size = CGSize(width: BGImage.size.width / 2, height: BGImage.size.height / 2)
         //bound.size = CGSize(width: BGImage.size.width / 2, height: BGImage.size.height / 2)
-        sqtable.size = CGSize(width: sqtableImage.size.width / 2, height: sqtableImage.size.height / 2)
-        rdtableL.size = CGSize(width: rdtableImage.size.width / 2, height: rdtableImage.size.height / 2)
-        rdtableR.size = CGSize(width: rdtableImage.size.width / 2, height: rdtableImage.size.height / 2)
-        plrBaseL.size = CGSize(width: plrBaseImage.size.width / 2, height: plrBaseImage.size.height / 2)
-        plrBaseR.size = CGSize(width: plrBaseImage.size.width / 2, height: plrBaseImage.size.height / 2)
-        poolTableT.size = CGSize(width: pooltableImage.size.width / 2, height: pooltableImage.size.height / 2)
-        poolTableB.size = CGSize(width: pooltableImage.size.width / 2, height: pooltableImage.size.height / 2)
-        benchT.size = CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5)
-        benchM.size = CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5)
-        benchB.size = CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5)
+
+       // plrBaseL.size = CGSize(width: plrBaseImage.size.width / 2, height: plrBaseImage.size.height / 2)
+       // plrBaseR.size = CGSize(width: plrBaseImage.size.width / 2, height: plrBaseImage.size.height / 2)
 
         
         //POSITION
         bg.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-        //bound.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-        sqtable.position = CGPoint(x: bg.position.x - 50, y: bg.position.y - 120)
-        rdtableL.position = CGPoint(x: bg.position.x - 340, y: bg.position.y - 120)
-        rdtableR.position = CGPoint(x: bg.position.x + 275, y: bg.position.y - 120)
-        plrBaseL.position = CGPoint(x: bg.position.x - 228, y: bg.position.y + 40)
-        plrBaseR.position = CGPoint(x: bg.position.x + 130, y: bg.position.y + 42)
-        poolTableT.position = CGPoint(x: bg.position.x + 614, y: bg.position.y + 9)
-        poolTableB.position = CGPoint(x: bg.position.x + 614, y: bg.position.y - 155)
-        benchT.position = CGPoint(x: bg.position.x - 705, y: bg.position.y - 85)
-        benchM.position = CGPoint(x: bg.position.x - 705, y: bg.position.y - 93)
-        benchB.position = CGPoint(x: bg.position.x - 705, y: bg.position.y - 105)
+        //plrBaseL.position = CGPoint(x: bg.position.x - 228, y: bg.position.y + 40)
+        //plrBaseR.position = CGPoint(x: bg.position.x + 130, y: bg.position.y + 42)
 
         //PHYSICS BODY
-        sqtable.physicsBody = SKPhysicsBody(texture: sqtableTexture, size: sqtable.size)
-        rdtableL.physicsBody = SKPhysicsBody(texture: rdtableTexture, size: rdtableL.size)
-        rdtableR.physicsBody = SKPhysicsBody(texture: rdtableTexture, size: rdtableR.size)
-        plrBaseL.physicsBody = SKPhysicsBody(texture: plrBaseTexture, size: plrBaseL.size)
-        plrBaseR.physicsBody = SKPhysicsBody(texture: plrBaseTexture, size: plrBaseR.size)
-        poolTableT.physicsBody = SKPhysicsBody(texture: pooltableTexture, size: poolTableT.size)
-        poolTableB.physicsBody = SKPhysicsBody(texture: pooltableTexture, size: poolTableB.size)
-        benchT.physicsBody = SKPhysicsBody(texture: benchTexture, size: benchT.size)
-        benchM.physicsBody = SKPhysicsBody(texture: benchTexture, size: benchM.size)
-        benchB.physicsBody = SKPhysicsBody(texture: benchTexture, size: benchB.size)
+       // plrBaseL.physicsBody = SKPhysicsBody(texture: plrBaseTexture, size: plrBaseL.size)
+      //  plrBaseR.physicsBody = SKPhysicsBody(texture: plrBaseTexture, size: plrBaseR.size)
+        
+      //  plrBaseL.physicsBody!.affectedByGravity = false
+       // plrBaseR.physicsBody!.affectedByGravity = false
 
-        //tr.physicsBody?.collisionBitMask = drink!.physicsBody!.collisionBitMask
-        //tl.physicsBody?.collisionBitMask = drink!.physicsBody!.collisionBitMask
-
-        sqtable.physicsBody!.affectedByGravity = false
-        rdtableL.physicsBody!.affectedByGravity = false
-        rdtableR.physicsBody!.affectedByGravity = false
-        plrBaseL.physicsBody!.affectedByGravity = false
-        plrBaseR.physicsBody!.affectedByGravity = false
-        poolTableT.physicsBody!.affectedByGravity = false
-        poolTableB.physicsBody!.affectedByGravity = false
-        benchT.physicsBody!.affectedByGravity = false
-        benchM.physicsBody!.affectedByGravity = false
-        benchB.physicsBody!.affectedByGravity = false
-
-        sqtable.physicsBody!.isDynamic = false
-        rdtableL.physicsBody!.isDynamic = false
-        rdtableR.physicsBody!.isDynamic = false
-        plrBaseL.physicsBody!.isDynamic = false
-        plrBaseR.physicsBody!.isDynamic = false
-        poolTableT.physicsBody!.isDynamic = false
-        poolTableB.physicsBody!.isDynamic = false
-        benchT.physicsBody!.isDynamic = false
-        benchM.physicsBody!.affectedByGravity = false
-        benchB.physicsBody!.affectedByGravity = false
+        //plrBaseL.physicsBody!.isDynamic = false
+        //plrBaseR.physicsBody!.isDynamic = false
 
 
         bg.zPosition = -99
-        //bound.zPosition = -1000000000000
-        sqtable.zPosition = -3
-        rdtableL.zPosition = -3
-        rdtableR.zPosition = -3
-        plrBaseL.zPosition = -3
-        plrBaseR.zPosition = -3
-        poolTableT.zPosition = -3
-        poolTableB.zPosition = -3
-        benchT.zPosition = -3
-        benchM.zPosition = -3
-        benchB.zPosition = -3
+        //plrBaseL.zPosition = -3
+        //plrBaseR.zPosition = -3
 
 
         addChild(bg)
-        //addChild(bound)
-        addChild(sqtable)
-        addChild(rdtableL)
-        addChild(rdtableR)
-        addChild(plrBaseL)
-        addChild(plrBaseR)
-        addChild(poolTableT)
-        addChild(poolTableB)
-        addChild(benchT)
-        addChild(benchM)
-        addChild(benchB)
+        addChild(sqTable.object)
+        addChild(rdTableL.object)
+        addChild(rdTableR.object)
+        //addChild(plrBaseL)
+        //addChild(plrBaseR)
+        addChild(poolTableT.object)
+        addChild(poolTableB.object)
+        addChild(benchT.object)
+        addChild(benchM.object)
+        addChild(benchB.object)
+        addChild(leftBoundary.object)
+        addChild(rightBoundary.object)
 
         background = bg
         //boundary = bound
-        squareTable = sqtable
-        roundTableL = rdtableL
-        roundTableR = rdtableR
-        pillarBaseL = plrBaseL
-        pillarBaseR = plrBaseR
-        poolTableTop = poolTableT
-        poolTableBot = poolTableB
-        benchTop = benchT
-        benchMid = benchM
-        benchBot = benchB
-
-        //player!.physicsBody?.contactTestBitMask = tableL!.physicsBody!.collisionBitMask
-       // player!.physicsBody?.contactTestBitMask = tableR!.physicsBody!.collisionBitMask
+        //pillarBaseL = plrBaseL
+        //pillarBaseR = plrBaseR
     }
 
 
@@ -565,7 +479,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if sTime.isValid == true {
                     sTime.invalidate()
                 }
-                player!.physicsBody?.isDynamic = false
+                player!.p.physicsBody?.isDynamic = false
                 drink!.removeFromParent()
                 drinkShadow!.removeFromParent()
                 endGame()
@@ -614,7 +528,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let texture = shadowAtlas.textureNamed(textureName)
             shadowFrames.append(texture)
         }
- 
         
         let d = SKSpriteNode(texture: beer)
         let shadow = SKSpriteNode()
@@ -630,10 +543,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var yUpper = frame.height / 2 + 50
         
         if (!isFirst) {
-            xLower = player!.position.x - 50
-            xUpper = player!.position.x + 50
-            yLower = player!.position.y - 50
-            yUpper = player!.position.y + 50
+            xLower = player!.p.position.x - 50
+            xUpper = player!.p.position.x + 50
+            yLower = player!.p.position.y - 50
+            yUpper = player!.p.position.y + 50
         }
         
         if (xLower < 0) {
@@ -664,12 +577,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         shadow.position = CGPoint(x: d.position.x, y: d.position.y - 5.0)
         shadow.size = d.size
         shadow.run(SKAction.repeatForever(SKAction.animate(with: shadowFrames, timePerFrame: 0.1)))
-        d.physicsBody = SKPhysicsBody(texture: beer, size: d.size)
+        while d.physicsBody == nil {
+            d.physicsBody = SKPhysicsBody(texture: beer, size: d.size)
+        }
         d.physicsBody!.affectedByGravity = false
         d.name = "drink"
         
         d.zPosition = -2
         shadow.zPosition = -2
+
         //d.physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
         self.addChild(d)
         self.addChild(shadow)
@@ -686,11 +602,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func endGame() {
         //let newScene = GGScene(fileNamed: "GGScene.swift")!
         moveJoystick.stop()
-        player?.removeFromParent()
+        player?.p.removeFromParent()
         timeLabel?.removeFromSuperview()
         countLabel?.removeFromSuperview()
         background?.removeFromParent()
-        squareTable?.removeFromParent()
         timerSubstrate?.removeFromParent()
         timerFill?.removeFromParent()
         self.removeAllChildren()
@@ -740,16 +655,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ///           TRACKER HANDLING
         //////////////////////////////////////////////
 
-        if (abs(drink!.position.x - player!.position.x) < frame.width / 2 && abs(drink!.position.y - player!.position.y) < frame.height / 2) {
+        if (abs(drink!.position.x - player!.p.position.x) < frame.width / 2 && abs(drink!.position.y - player!.p.position.y) < frame.height / 2) {
             tracker!.isHidden = true
         }
         else {
             tracker!.isHidden = false
         }
   
-        tracker!.position = CGPoint(x: (pos.x - player!.position.x) / 4, y: (pos.y - player!.position.y) / 4)
-        let angle = atan((pos.y - player!.position.y) / (pos.x - player!.position.x))
-        if (player!.position.x >= drink!.position.x) {
+        tracker!.position = CGPoint(x: (pos.x - player!.p.position.x) / 4, y: (pos.y - player!.p.position.y) / 4)
+        let angle = atan((pos.y - player!.p.position.y) / (pos.x - player!.p.position.x))
+        if (player!.p.position.x >= drink!.position.x) {
             tracker!.zRotation = angle + CGFloat(Double.pi / 2)
         }
         else {

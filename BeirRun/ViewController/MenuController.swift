@@ -1,23 +1,23 @@
 //
-//  GameViewController.swift
+//  MenuController.swift
 //  BeirRun
 //
-//  Created by Nicholas Lennox on 9/23/19.
-//  Copyright © 2019 BeirRunRCOS. All rights reserved.
+//  Created by Nicholas Lennox on 1/31/20.
+//  Copyright © 2020 BeirRunRCOS. All rights reserved.
 //
 
 import UIKit
 import SpriteKit
 import GameplayKit
 
-class GameViewController: UIViewController {
+class MenuController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
 
-            let scene = GameScene(size: view.bounds.size)
+            let scene = MenuScene(size: view.bounds.size)
             // Set the scale mode to scale to fit the window
             scene.scaleMode = .aspectFill
         
