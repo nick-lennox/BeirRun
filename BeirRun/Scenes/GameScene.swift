@@ -293,9 +293,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let sub = SKSpriteNode(texture: subTexture)
         let fil = SKSpriteNode(texture: fillTexture)
         
-        fil.size = CGSize(width: fillImage!.size.width / 2, height: fillImage!.size.height / 2)
-        sub.size = CGSize(width: substrateImage!.size.width / 2, height: substrateImage!.size.height / 2)
-        fillWidth = fillImage!.size.width
+        fil.size = CGSize(width: fillImage!.size.width / 4, height: fillImage!.size.height / 4)
+        sub.size = CGSize(width: substrateImage!.size.width / 4, height: substrateImage!.size.height / 4)
         
         fil.name = "fill"
         sub.name = "subs"
@@ -306,7 +305,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //player = self.childNode(withName: "player") as? SKSpriteNode
         sub.position = CGPoint(x: 175, y: 175)
         fil.position = CGPoint(x: 175, y: 175)
-        
+      //  fil.setScale(0.75)
+        //sub.setScale(0.75)
+        fillWidth = fillImage!.size.width
+
         //fil.physicsBody = SKPhysicsBody(texture: fillTexture, size: fill!.size)
         //sub.physicsBody = SKPhysicsBody(texture: subTexture, size: substrate!.size)
         //fil.physicsBody!.isDynamic = false
@@ -321,7 +323,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         timerFill = fil
         
         timerFill?.run(SKAction.resize(toWidth: 0, duration: timer))
-        timerFill?.run(SKAction.moveTo(x: timerSubstrate!.position.x - (fillWidth / 4), duration: timer))
+        timerFill?.run(SKAction.moveTo(x: timerSubstrate!.position.x - (fillWidth / 16), duration: timer))
         sTime = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(displayTimer), userInfo: nil, repeats: true)
     }
     
@@ -630,11 +632,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if timer > 0 {
                 timer = 5 - Double(app.drinkCount)*(0.1)
                 timerFill?.removeAllActions()
-                timerFill?.run(SKAction.resize(toWidth: fillWidth / 2, duration: 0.0))
+                timerFill?.run(SKAction.resize(toWidth: fillWidth / 4, duration: 0.0))
                 timerFill?.run(SKAction.moveTo(x: timerSubstrate!.position.x, duration: 0.0))
                 
                 timerFill?.run(SKAction.resize(toWidth: 0, duration: timer))
-                timerFill?.run(SKAction.moveTo(x: timerSubstrate!.position.x - (fillWidth / 4), duration: timer))
+                timerFill?.run(SKAction.moveTo(x: timerSubstrate!.position.x - (fillWidth / 8), duration: timer))
             }
         }
     }

@@ -51,9 +51,9 @@ class Player {
         let sideWalkRAtlas = SKTextureAtlas(named: "sideWalkRight")
         let backWalkAtlas = SKTextureAtlas(named: "backWalk")
         for index in 1 ... 2 {
-            let textureName = "walk_\(index)"
-            let texture = frontWalkAtlas.textureNamed(textureName)
-            frontFrames.append(texture)
+             let textureName = "walk_\(index)"
+             let texture = frontWalkAtlas.textureNamed(textureName)
+             frontFrames.append(texture)
         }
        
         var texture1 = sideWalkLAtlas.textureNamed("sideStillL")
