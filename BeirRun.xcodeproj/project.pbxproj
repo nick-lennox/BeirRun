@@ -1,0 +1,691 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		003732B9240F0422006E2DDA /* Beer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003732B8240F0422006E2DDA /* Beer.swift */; };
+		0042075E233958AE00061C24 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0042075D233958AE00061C24 /* AppDelegate.swift */; };
+		00420764233958AE00061C24 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00420763233958AE00061C24 /* GameScene.swift */; };
+		00420766233958AE00061C24 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00420765233958AE00061C24 /* GameViewController.swift */; };
+		00420769233958AE00061C24 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00420767233958AE00061C24 /* Main.storyboard */; };
+		0042076E233958AF00061C24 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0042076C233958AF00061C24 /* LaunchScreen.storyboard */; };
+		00420779233958AF00061C24 /* BeirRunTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00420778233958AF00061C24 /* BeirRunTests.swift */; };
+		00420784233958AF00061C24 /* BeirRunUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00420783233958AF00061C24 /* BeirRunUITests.swift */; };
+		0042079623395BED00061C24 /* TLAnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0042079523395BED00061C24 /* TLAnalogJoystick.swift */; };
+		004B34B6236127E100E65CC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 004B34B5236127E100E65CC2 /* Assets.xcassets */; };
+		004B34C52362159500E65CC2 /* shadow.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 004B34C42362159500E65CC2 /* shadow.atlas */; };
+		007590D32343F8C100DD2A49 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007590D22343F8C100DD2A49 /* MenuScene.swift */; };
+		0082344B236C9F9C00D02468 /* tracker.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0082344A236C9F9C00D02468 /* tracker.atlas */; };
+		00A98E48235FACA5004A92F6 /* sideWalkLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 00A98E47235FACA5004A92F6 /* sideWalkLeft.atlas */; };
+		00A98E4A235FAD1E004A92F6 /* sideWalkRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 00A98E49235FAD1E004A92F6 /* sideWalkRight.atlas */; };
+		00A98E4C235FAD52004A92F6 /* backWalk.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 00A98E4B235FAD51004A92F6 /* backWalk.atlas */; };
+		00B1D3E623445E3600E3F726 /* Grunge-Tank.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00B1D3E523445E3600E3F726 /* Grunge-Tank.otf */; };
+		00BF15D6233EC00B00A3CEDA /* GGScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BF15D5233EC00B00A3CEDA /* GGScene.swift */; };
+		00BF15D8233EC17700A3CEDA /* GGViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00BF15D7233EC17700A3CEDA /* GGViewController.swift */; };
+		00CBD474240067A500C96720 /* CollidableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CBD473240067A500C96720 /* CollidableObject.swift */; };
+		00CBD4762405BD3400C96720 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CBD4752405BD3400C96720 /* Player.swift */; };
+		00D0471D23E4CED400464AA0 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0471C23E4CED400464AA0 /* MenuController.swift */; };
+		00E9898E2350EB47009096AC /* frontWalk.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 00E9898D2350EB47009096AC /* frontWalk.atlas */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		00420775233958AF00061C24 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00420752233958AE00061C24 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00420759233958AE00061C24;
+			remoteInfo = BeirRun;
+		};
+		00420780233958AF00061C24 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00420752233958AE00061C24 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00420759233958AE00061C24;
+			remoteInfo = BeirRun;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		003732B8240F0422006E2DDA /* Beer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Beer.swift; path = BeirRun/ViewController/Beer.swift; sourceTree = SOURCE_ROOT; };
+		0042075A233958AE00061C24 /* BeirRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeirRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0042075D233958AE00061C24 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		00420763233958AE00061C24 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		00420765233958AE00061C24 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		00420768233958AE00061C24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0042076D233958AF00061C24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		0042076F233958AF00061C24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00420774233958AF00061C24 /* BeirRunTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeirRunTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00420778233958AF00061C24 /* BeirRunTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeirRunTests.swift; sourceTree = "<group>"; };
+		0042077A233958AF00061C24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0042077F233958AF00061C24 /* BeirRunUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeirRunUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00420783233958AF00061C24 /* BeirRunUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeirRunUITests.swift; sourceTree = "<group>"; };
+		00420785233958AF00061C24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0042079523395BED00061C24 /* TLAnalogJoystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TLAnalogJoystick.swift; path = ../../../../TLAnalogJoystick.swift; sourceTree = "<group>"; };
+		004B34B5236127E100E65CC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../Assets.xcassets; sourceTree = "<group>"; };
+		004B34C42362159500E65CC2 /* shadow.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = shadow.atlas; path = BeirRun/Assets/shadow.atlas; sourceTree = "<group>"; };
+		007590D22343F8C100DD2A49 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		0082344A236C9F9C00D02468 /* tracker.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = tracker.atlas; path = BeirRun/Assets/tracker.atlas; sourceTree = "<group>"; };
+		00A98E47235FACA5004A92F6 /* sideWalkLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = sideWalkLeft.atlas; path = BeirRun/Assets/sideWalkLeft.atlas; sourceTree = "<group>"; };
+		00A98E49235FAD1E004A92F6 /* sideWalkRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = sideWalkRight.atlas; path = BeirRun/Assets/sideWalkRight.atlas; sourceTree = "<group>"; };
+		00A98E4B235FAD51004A92F6 /* backWalk.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = backWalk.atlas; path = BeirRun/Assets/backWalk.atlas; sourceTree = "<group>"; };
+		00B1D3E523445E3600E3F726 /* Grunge-Tank.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Grunge-Tank.otf"; sourceTree = "<group>"; };
+		00BF15D5233EC00B00A3CEDA /* GGScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGScene.swift; sourceTree = "<group>"; };
+		00BF15D7233EC17700A3CEDA /* GGViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GGViewController.swift; sourceTree = "<group>"; };
+		00CBD473240067A500C96720 /* CollidableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollidableObject.swift; sourceTree = "<group>"; };
+		00CBD4752405BD3400C96720 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = BeirRun/ViewController/Player.swift; sourceTree = SOURCE_ROOT; };
+		00D0471C23E4CED400464AA0 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		00E9898D2350EB47009096AC /* frontWalk.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = frontWalk.atlas; path = ../../frontWalk.atlas; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		00420757233958AE00061C24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00420771233958AF00061C24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0042077C233958AF00061C24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		00420751233958AE00061C24 = {
+			isa = PBXGroup;
+			children = (
+				0082344A236C9F9C00D02468 /* tracker.atlas */,
+				004B34C42362159500E65CC2 /* shadow.atlas */,
+				00A98E4B235FAD51004A92F6 /* backWalk.atlas */,
+				00A98E49235FAD1E004A92F6 /* sideWalkRight.atlas */,
+				00A98E47235FACA5004A92F6 /* sideWalkLeft.atlas */,
+				00E9898D2350EB47009096AC /* frontWalk.atlas */,
+				0042075C233958AE00061C24 /* BeirRun */,
+				00420777233958AF00061C24 /* BeirRunTests */,
+				00420782233958AF00061C24 /* BeirRunUITests */,
+				0042075B233958AE00061C24 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0042075B233958AE00061C24 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0042075A233958AE00061C24 /* BeirRun.app */,
+				00420774233958AF00061C24 /* BeirRunTests.xctest */,
+				0042077F233958AF00061C24 /* BeirRunUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0042075C233958AE00061C24 /* BeirRun */ = {
+			isa = PBXGroup;
+			children = (
+				0042076F233958AF00061C24 /* Info.plist */,
+				00B1D3E123445A5600E3F726 /* fonts */,
+				0042079323395AED00061C24 /* Template */,
+				0042079123395ACC00061C24 /* ViewController */,
+				0042079223395ADA00061C24 /* Scenes */,
+				0042079423395B2800061C24 /* Assets */,
+			);
+			path = BeirRun;
+			sourceTree = "<group>";
+		};
+		00420777233958AF00061C24 /* BeirRunTests */ = {
+			isa = PBXGroup;
+			children = (
+				00420778233958AF00061C24 /* BeirRunTests.swift */,
+				0042077A233958AF00061C24 /* Info.plist */,
+			);
+			path = BeirRunTests;
+			sourceTree = "<group>";
+		};
+		00420782233958AF00061C24 /* BeirRunUITests */ = {
+			isa = PBXGroup;
+			children = (
+				00420783233958AF00061C24 /* BeirRunUITests.swift */,
+				00420785233958AF00061C24 /* Info.plist */,
+			);
+			path = BeirRunUITests;
+			sourceTree = "<group>";
+		};
+		0042079123395ACC00061C24 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0042079523395BED00061C24 /* TLAnalogJoystick.swift */,
+				00420765233958AE00061C24 /* GameViewController.swift */,
+				00D0471C23E4CED400464AA0 /* MenuController.swift */,
+				00BF15D7233EC17700A3CEDA /* GGViewController.swift */,
+				00CBD473240067A500C96720 /* CollidableObject.swift */,
+				00CBD4752405BD3400C96720 /* Player.swift */,
+				003732B8240F0422006E2DDA /* Beer.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		0042079223395ADA00061C24 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				00420763233958AE00061C24 /* GameScene.swift */,
+				00BF15D5233EC00B00A3CEDA /* GGScene.swift */,
+				007590D22343F8C100DD2A49 /* MenuScene.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		0042079323395AED00061C24 /* Template */ = {
+			isa = PBXGroup;
+			children = (
+				0042075D233958AE00061C24 /* AppDelegate.swift */,
+			);
+			path = Template;
+			sourceTree = "<group>";
+		};
+		0042079423395B2800061C24 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				0042076C233958AF00061C24 /* LaunchScreen.storyboard */,
+				00420767233958AE00061C24 /* Main.storyboard */,
+				004B34B5236127E100E65CC2 /* Assets.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		00B1D3E123445A5600E3F726 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				00B1D3E523445E3600E3F726 /* Grunge-Tank.otf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		00420759233958AE00061C24 /* BeirRun */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00420788233958AF00061C24 /* Build configuration list for PBXNativeTarget "BeirRun" */;
+			buildPhases = (
+				00420756233958AE00061C24 /* Sources */,
+				00420757233958AE00061C24 /* Frameworks */,
+				00420758233958AE00061C24 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BeirRun;
+			productName = BeirRun;
+			productReference = 0042075A233958AE00061C24 /* BeirRun.app */;
+			productType = "com.apple.product-type.application";
+		};
+		00420773233958AF00061C24 /* BeirRunTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0042078B233958AF00061C24 /* Build configuration list for PBXNativeTarget "BeirRunTests" */;
+			buildPhases = (
+				00420770233958AF00061C24 /* Sources */,
+				00420771233958AF00061C24 /* Frameworks */,
+				00420772233958AF00061C24 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00420776233958AF00061C24 /* PBXTargetDependency */,
+			);
+			name = BeirRunTests;
+			productName = BeirRunTests;
+			productReference = 00420774233958AF00061C24 /* BeirRunTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		0042077E233958AF00061C24 /* BeirRunUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0042078E233958AF00061C24 /* Build configuration list for PBXNativeTarget "BeirRunUITests" */;
+			buildPhases = (
+				0042077B233958AF00061C24 /* Sources */,
+				0042077C233958AF00061C24 /* Frameworks */,
+				0042077D233958AF00061C24 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00420781233958AF00061C24 /* PBXTargetDependency */,
+			);
+			name = BeirRunUITests;
+			productName = BeirRunUITests;
+			productReference = 0042077F233958AF00061C24 /* BeirRunUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		00420752233958AE00061C24 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1020;
+				LastUpgradeCheck = 1020;
+				ORGANIZATIONNAME = BeirRunRCOS;
+				TargetAttributes = {
+					00420759233958AE00061C24 = {
+						CreatedOnToolsVersion = 10.2.1;
+					};
+					00420773233958AF00061C24 = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = 00420759233958AE00061C24;
+					};
+					0042077E233958AF00061C24 = {
+						CreatedOnToolsVersion = 10.2.1;
+						TestTargetID = 00420759233958AE00061C24;
+					};
+				};
+			};
+			buildConfigurationList = 00420755233958AE00061C24 /* Build configuration list for PBXProject "BeirRun" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 00420751233958AE00061C24;
+			productRefGroup = 0042075B233958AE00061C24 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				00420759233958AE00061C24 /* BeirRun */,
+				00420773233958AF00061C24 /* BeirRunTests */,
+				0042077E233958AF00061C24 /* BeirRunUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00420758233958AE00061C24 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00420769233958AE00061C24 /* Main.storyboard in Resources */,
+				00A98E4C235FAD52004A92F6 /* backWalk.atlas in Resources */,
+				00B1D3E623445E3600E3F726 /* Grunge-Tank.otf in Resources */,
+				0042076E233958AF00061C24 /* LaunchScreen.storyboard in Resources */,
+				00A98E48235FACA5004A92F6 /* sideWalkLeft.atlas in Resources */,
+				00A98E4A235FAD1E004A92F6 /* sideWalkRight.atlas in Resources */,
+				0082344B236C9F9C00D02468 /* tracker.atlas in Resources */,
+				004B34C52362159500E65CC2 /* shadow.atlas in Resources */,
+				004B34B6236127E100E65CC2 /* Assets.xcassets in Resources */,
+				00E9898E2350EB47009096AC /* frontWalk.atlas in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00420772233958AF00061C24 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0042077D233958AF00061C24 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00420756233958AE00061C24 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00D0471D23E4CED400464AA0 /* MenuController.swift in Sources */,
+				00CBD474240067A500C96720 /* CollidableObject.swift in Sources */,
+				00BF15D8233EC17700A3CEDA /* GGViewController.swift in Sources */,
+				003732B9240F0422006E2DDA /* Beer.swift in Sources */,
+				00420764233958AE00061C24 /* GameScene.swift in Sources */,
+				00BF15D6233EC00B00A3CEDA /* GGScene.swift in Sources */,
+				007590D32343F8C100DD2A49 /* MenuScene.swift in Sources */,
+				00420766233958AE00061C24 /* GameViewController.swift in Sources */,
+				0042075E233958AE00061C24 /* AppDelegate.swift in Sources */,
+				00CBD4762405BD3400C96720 /* Player.swift in Sources */,
+				0042079623395BED00061C24 /* TLAnalogJoystick.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00420770233958AF00061C24 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00420779233958AF00061C24 /* BeirRunTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0042077B233958AF00061C24 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00420784233958AF00061C24 /* BeirRunUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		00420776233958AF00061C24 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00420759233958AE00061C24 /* BeirRun */;
+			targetProxy = 00420775233958AF00061C24 /* PBXContainerItemProxy */;
+		};
+		00420781233958AF00061C24 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00420759233958AE00061C24 /* BeirRun */;
+			targetProxy = 00420780233958AF00061C24 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		00420767233958AE00061C24 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				00420768233958AE00061C24 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0042076C233958AF00061C24 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0042076D233958AF00061C24 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		00420786233958AF00061C24 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		00420787233958AF00061C24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		00420789233958AF00061C24 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2SK65JC82Q;
+				INFOPLIST_FILE = BeirRun/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "us.Nicholas-Lennox.BeirRun";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0042078A233958AF00061C24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 2SK65JC82Q;
+				INFOPLIST_FILE = BeirRun/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "us.Nicholas-Lennox.BeirRun";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		0042078C233958AF00061C24 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BeirRunTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "us.Nicholas-Lennox.BeirRunTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeirRun.app/BeirRun";
+			};
+			name = Debug;
+		};
+		0042078D233958AF00061C24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BeirRunTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "us.Nicholas-Lennox.BeirRunTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BeirRun.app/BeirRun";
+			};
+			name = Release;
+		};
+		0042078F233958AF00061C24 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BeirRunUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "us.Nicholas-Lennox.BeirRunUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BeirRun;
+			};
+			name = Debug;
+		};
+		00420790233958AF00061C24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BeirRunUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "us.Nicholas-Lennox.BeirRunUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BeirRun;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		00420755233958AE00061C24 /* Build configuration list for PBXProject "BeirRun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00420786233958AF00061C24 /* Debug */,
+				00420787233958AF00061C24 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		00420788233958AF00061C24 /* Build configuration list for PBXNativeTarget "BeirRun" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00420789233958AF00061C24 /* Debug */,
+				0042078A233958AF00061C24 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0042078B233958AF00061C24 /* Build configuration list for PBXNativeTarget "BeirRunTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0042078C233958AF00061C24 /* Debug */,
+				0042078D233958AF00061C24 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0042078E233958AF00061C24 /* Build configuration list for PBXNativeTarget "BeirRunUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0042078F233958AF00061C24 /* Debug */,
+				00420790233958AF00061C24 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 00420752233958AE00061C24 /* Project object */;
+}
