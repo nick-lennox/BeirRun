@@ -50,8 +50,10 @@ open class TLAnalogJoystickHiddenArea: SKShapeNode {
 			
 			if let currJoystick = self.currJoystick {
 				isUserInteractionEnabled = true
-				cancelNode(currJoystick)
 				addChild(currJoystick)
+                currJoystick.isHidden = false
+                //Sets joystick position
+                currJoystick.position = CGPoint(x: -300,y: -100)
 			} else {
 				isUserInteractionEnabled = false
 			}
@@ -61,11 +63,12 @@ open class TLAnalogJoystickHiddenArea: SKShapeNode {
 	private func cancelNode(_ node: SKNode) {
 		node.isHidden = true
 	}
+    
 	
 	open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		guard let currJoystick = self.currJoystick else {
 			return
-		}
+        }
 		
 		let firstTouch = touches.first!
 		currJoystick.position = firstTouch.location(in: self)
@@ -77,7 +80,6 @@ open class TLAnalogJoystickHiddenArea: SKShapeNode {
 		guard let currJoystick = self.currJoystick else {
 			return
 		}
-		
 		currJoystick.touchesMoved(touches, with: event)
 	}
 	
@@ -85,9 +87,10 @@ open class TLAnalogJoystickHiddenArea: SKShapeNode {
 		guard let currJoystick = self.currJoystick else {
 			return
 		}
-		
-		currJoystick.touchesEnded(touches, with: event)
-		cancelNode(currJoystick)
+        currJoystick.touchesEnded(touches, with: event)
+        //Sets joystick position
+        currJoystick.position = CGPoint(x: -300,y: -100)
+
 	}
 	
 	open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -96,8 +99,9 @@ open class TLAnalogJoystickHiddenArea: SKShapeNode {
 		}
 		
 		currJoystick.touchesCancelled(touches, with: event)
-		cancelNode(currJoystick)
-	}
+        //Sets joystick position
+        currJoystick.position = CGPoint(x: 0,y: -100)
+    }
 }
 
 //MARK: - TLAnalogJoystickComponent
@@ -334,7 +338,7 @@ open class TLAnalogJoystick: SKNode {
 		
 		disabled = false
 		displayLink = CADisplayLink(target: self, selector: #selector(listen))
-		handle.zPosition = base.zPosition + 1
+		handle.zPosition = base.zPosition
 
 		addChild(base)
 		addChild(handle)
@@ -412,7 +416,6 @@ open class TLAnalogJoystick: SKNode {
 		guard tracking else {
 			return
 		}
-		
 		let touch = touches.first!
 		let location = touch.location(in: self)
 		let baseRadius = base.radius
@@ -427,16 +430,21 @@ open class TLAnalogJoystick: SKNode {
 				position.x += location.x - handlePosition.x
 				position.y += location.y - handlePosition.y
 			}
-		} else {
+        } else {
 			handle.position = location
 		}
     }
     
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //Sets joystick position
+        self.position = CGPoint(x: -300,y: -100)
         tracking = false
+        
     }
     
     open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //Sets joystick position
+        self.position = CGPoint(x: -300,y: -100)
         tracking = false
     }
 
