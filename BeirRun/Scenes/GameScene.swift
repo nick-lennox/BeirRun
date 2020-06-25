@@ -94,7 +94,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         prevBeerX = frame.width / 2
         prevBeerY = frame.height / 2
         
-        setUpTables()
+        //setUpTables()
+        setUpBackground()
         placeTracker()
 
         setupJoystick()
@@ -117,8 +118,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if self.sTime.isValid == false {
                 speed = 0.0
             }
+            //Creates drunken movement
+            var c = CGFloat(0.0)
+            let dcount = self.app.drinkCount * 2
+            let CGcount = CGFloat(dcount)
+            //Creates random number after 5 drinks to add to the position of the player
+            if (self.app.drinkCount > 5 ) {
+                c = CGFloat.random(in: -CGcount...CGcount)
+            }
             
-            player.p.position = CGPoint(x: player.p.position.x + (pVelocity.x * speed), y: player.p.position.y + (pVelocity.y * speed))
+            player.p.position = CGPoint(x: player.p.position.x + ( (pVelocity.x + c) * speed), y: player.p.position.y + ( (pVelocity.y + c) * speed))
         }
         
         moveJoystick.on(.end) { [unowned self] joystick in
@@ -239,17 +248,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         tracker!.run(SKAction.repeatForever(SKAction.animate(with: trackerFrames, timePerFrame: 0.2)))
         cam.addChild(tracker!)
     }
-    
+    func setUpBackground() {
+        guard let BGImage = UIImage(named: "noncollidable") else {
+            return
+        }
+        
+        let BGtexture = SKTexture(image: BGImage)
+        let bg = SKSpriteNode(texture: BGtexture)
+        bg.size = CGSize(width: BGImage.size.width / 2, height: BGImage.size.height / 2)
+        
+        bg.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        bg.zPosition = -99
+
+        addChild(bg)
+        background = bg
+    }
     /*
      Jared O'Connor
      Function to add collidable objects
     */
     func setUpTables() {
-        
-        guard let BGImage = UIImage(named: "noncollidable") else {
-            return
-        }
-        
         guard let benchImage = UIImage(named: "bench") else {
             return
         }
@@ -274,14 +292,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
 
-        let BGtexture = SKTexture(image: BGImage)
 
-        
-        let bg = SKSpriteNode(texture: BGtexture)
         let benchT = CollidableObject(benchImage, CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5), CGPoint(x: -250, y: 180), -3)
         let benchM = CollidableObject(benchImage, CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5), CGPoint(x: -250, y: 110), -3)
         let benchB = CollidableObject(benchImage, CGSize(width: benchImage.size.width / 2.5, height: benchImage.size.height / 2.5), CGPoint(x: -250, y: 40), -3)
-        
         let sqTable = CollidableObject(sqtableImage, CGSize(width: sqtableImage.size.width / 2, height: sqtableImage.size.height / 2), CGPoint(x: 350, y: 35), -3)
         let rdTableL = CollidableObject(rdtableImage, CGSize(width: rdtableImage.size.width / 2, height: rdtableImage.size.height / 2), CGPoint(x: 75, y: 35), -3)
         let rdTableR = CollidableObject(rdtableImage, CGSize(width: rdtableImage.size.width / 2, height: rdtableImage.size.height / 2), CGPoint(x: 625, y: 35), -3)
@@ -292,7 +306,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let rightBoundary = CollidableObject(rightBoundaryImage, CGSize(width: leftBoundaryImage.size.width / 2, height: leftBoundaryImage.size.height / 2), CGPoint(x: 448, y: 158), -3)
         //SIZE
-        bg.size = CGSize(width: BGImage.size.width / 2, height: BGImage.size.height / 2)
+
         //bound.size = CGSize(width: BGImage.size.width / 2, height: BGImage.size.height / 2)
 
        // plrBaseL.size = CGSize(width: plrBaseImage.size.width / 2, height: plrBaseImage.size.height / 2)
@@ -300,10 +314,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         
         //POSITION
-        bg.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-        bg.zPosition = -99
 
-        addChild(bg)
         addChild(sqTable.object)
         addChild(rdTableL.object)
         addChild(rdTableR.object)
@@ -317,7 +328,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(leftBoundary.object)
         addChild(rightBoundary.object)
 
-        background = bg
     }
 
 
