@@ -15,8 +15,6 @@
 		0042076E233958AF00061C24 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0042076C233958AF00061C24 /* LaunchScreen.storyboard */; };
 		00420779233958AF00061C24 /* BeirRunTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00420778233958AF00061C24 /* BeirRunTests.swift */; };
 		00420784233958AF00061C24 /* BeirRunUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00420783233958AF00061C24 /* BeirRunUITests.swift */; };
-		0042079623395BED00061C24 /* TLAnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0042079523395BED00061C24 /* TLAnalogJoystick.swift */; };
-		004B34B6236127E100E65CC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 004B34B5236127E100E65CC2 /* Assets.xcassets */; };
 		004B34C52362159500E65CC2 /* shadow.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 004B34C42362159500E65CC2 /* shadow.atlas */; };
 		007590D32343F8C100DD2A49 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007590D22343F8C100DD2A49 /* MenuScene.swift */; };
 		0082344B236C9F9C00D02468 /* tracker.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 0082344A236C9F9C00D02468 /* tracker.atlas */; };
@@ -30,6 +28,9 @@
 		00CBD4762405BD3400C96720 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CBD4752405BD3400C96720 /* Player.swift */; };
 		00D0471D23E4CED400464AA0 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D0471C23E4CED400464AA0 /* MenuController.swift */; };
 		00E9898E2350EB47009096AC /* frontWalk.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 00E9898D2350EB47009096AC /* frontWalk.atlas */; };
+		1F25A14024B4E30800309DDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F25A13F24B4E30800309DDC /* Assets.xcassets */; };
+		1F25A14224B4E36C00309DDC /* TLAnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F25A14124B4E36C00309DDC /* TLAnalogJoystick.swift */; };
+		1F62388224B92094001CA519 /* PowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62388124B92094001CA519 /* PowerUp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,8 +65,6 @@
 		0042077F233958AF00061C24 /* BeirRunUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeirRunUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00420783233958AF00061C24 /* BeirRunUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeirRunUITests.swift; sourceTree = "<group>"; };
 		00420785233958AF00061C24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0042079523395BED00061C24 /* TLAnalogJoystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TLAnalogJoystick.swift; path = ../../../../TLAnalogJoystick.swift; sourceTree = "<group>"; };
-		004B34B5236127E100E65CC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../Assets.xcassets; sourceTree = "<group>"; };
 		004B34C42362159500E65CC2 /* shadow.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = shadow.atlas; path = BeirRun/Assets/shadow.atlas; sourceTree = "<group>"; };
 		007590D22343F8C100DD2A49 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		0082344A236C9F9C00D02468 /* tracker.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = tracker.atlas; path = BeirRun/Assets/tracker.atlas; sourceTree = "<group>"; };
@@ -79,6 +78,9 @@
 		00CBD4752405BD3400C96720 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Player.swift; path = BeirRun/ViewController/Player.swift; sourceTree = SOURCE_ROOT; };
 		00D0471C23E4CED400464AA0 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		00E9898D2350EB47009096AC /* frontWalk.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = frontWalk.atlas; path = ../../frontWalk.atlas; sourceTree = "<group>"; };
+		1F25A13F24B4E30800309DDC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1F25A14124B4E36C00309DDC /* TLAnalogJoystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLAnalogJoystick.swift; sourceTree = "<group>"; };
+		1F62388124B92094001CA519 /* PowerUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,10 +168,11 @@
 		0042079123395ACC00061C24 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				0042079523395BED00061C24 /* TLAnalogJoystick.swift */,
 				00420765233958AE00061C24 /* GameViewController.swift */,
 				00D0471C23E4CED400464AA0 /* MenuController.swift */,
 				00BF15D7233EC17700A3CEDA /* GGViewController.swift */,
+				1F25A14124B4E36C00309DDC /* TLAnalogJoystick.swift */,
+				1F62388124B92094001CA519 /* PowerUp.swift */,
 				00CBD473240067A500C96720 /* CollidableObject.swift */,
 				00CBD4752405BD3400C96720 /* Player.swift */,
 				003732B8240F0422006E2DDA /* Beer.swift */,
@@ -200,7 +203,7 @@
 			children = (
 				0042076C233958AF00061C24 /* LaunchScreen.storyboard */,
 				00420767233958AE00061C24 /* Main.storyboard */,
-				004B34B5236127E100E65CC2 /* Assets.xcassets */,
+				1F25A13F24B4E30800309DDC /* Assets.xcassets */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -321,11 +324,11 @@
 				00A98E4C235FAD52004A92F6 /* backWalk.atlas in Resources */,
 				00B1D3E623445E3600E3F726 /* Grunge-Tank.otf in Resources */,
 				0042076E233958AF00061C24 /* LaunchScreen.storyboard in Resources */,
+				1F25A14024B4E30800309DDC /* Assets.xcassets in Resources */,
 				00A98E48235FACA5004A92F6 /* sideWalkLeft.atlas in Resources */,
 				00A98E4A235FAD1E004A92F6 /* sideWalkRight.atlas in Resources */,
 				0082344B236C9F9C00D02468 /* tracker.atlas in Resources */,
 				004B34C52362159500E65CC2 /* shadow.atlas in Resources */,
-				004B34B6236127E100E65CC2 /* Assets.xcassets in Resources */,
 				00E9898E2350EB47009096AC /* frontWalk.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -358,10 +361,11 @@
 				00420764233958AE00061C24 /* GameScene.swift in Sources */,
 				00BF15D6233EC00B00A3CEDA /* GGScene.swift in Sources */,
 				007590D32343F8C100DD2A49 /* MenuScene.swift in Sources */,
+				1F25A14224B4E36C00309DDC /* TLAnalogJoystick.swift in Sources */,
 				00420766233958AE00061C24 /* GameViewController.swift in Sources */,
 				0042075E233958AE00061C24 /* AppDelegate.swift in Sources */,
+				1F62388224B92094001CA519 /* PowerUp.swift in Sources */,
 				00CBD4762405BD3400C96720 /* Player.swift in Sources */,
-				0042079623395BED00061C24 /* TLAnalogJoystick.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

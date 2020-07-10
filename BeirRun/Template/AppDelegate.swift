@@ -5,7 +5,6 @@
 //  Created by Nicholas Lennox on 9/23/19.
 //  Copyright © 2019 BeirRunRCOS. All rights reserved.
 //
-
 import UIKit
 
 @UIApplicationMain
@@ -44,4 +43,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-

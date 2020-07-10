@@ -6,12 +6,15 @@ import SpriteKit
 var cam = SKCameraNode()
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
     let setJoystickStickImageBtn = SKLabelNode()
     let setJoystickSubstrateImageBtn = SKLabelNode()
     let app: AppDelegate = UIApplication.shared.delegate as! AppDelegate
 
     //var drinkCount: Int = 0
+    
     var player: Player?
+    var playerSpeed = CGFloat(0.1)
     var drink: SKSpriteNode?
     var drinkShadow: SKSpriteNode?
     var drinkTracker: SKSpriteNode?
@@ -30,6 +33,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var sTime = Timer()
     var isFirst = true
     
+    var powerup = PowerUp("redbull")
+    
     var pos = CGPoint(x: 0, y: 0)
     
     var playerFrames:[SKTexture]?
@@ -42,7 +47,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let sideStandingR = UIImage(named: "sideStillR")
     let sideStandingL = UIImage(named: "sideStillL")
-    
     let beerHitbox = UIImage(named: "beer1")
 
     var shadowFrames:[SKTexture] = []
@@ -88,7 +92,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         self.camera = cam
         self.addChild(cam)
-
+        self.view?.showsPhysics = true
         physicsWorld.contactDelegate = self
         
         prevBeerX = frame.width / 2
@@ -103,20 +107,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setUpCount()
         placeDrink()
         setupPlayer()
-
+        
         //MARK: Handlers begin
         moveJoystick.on(.move) { [unowned self] joystick in
             guard let player = self.player else {
                 return
             }
             self.aVelocity = joystick.angular
-            var speed = CGFloat(0.1)
             player.move(self.aVelocity)
             let pVelocity = joystick.velocity
 
             //Stops player after game is over
             if self.sTime.isValid == false {
-                speed = 0.0
+                self.playerSpeed = 0.0
             }
             //Creates drunken movement
             var c = CGFloat(0.0)
@@ -127,7 +130,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 c = CGFloat.random(in: -CGcount...CGcount)
             }
             
-            player.p.position = CGPoint(x: player.p.position.x + ( (pVelocity.x + c) * speed), y: player.p.position.y + ( (pVelocity.y + c) * speed))
+            player.p.position = CGPoint(x: player.p.position.x + ( (pVelocity.x + c) * self.playerSpeed), y: player.p.position.y + ( (pVelocity.y + c) * self.playerSpeed))
         }
         
         moveJoystick.on(.end) { [unowned self] joystick in
@@ -241,7 +244,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let texture = trackerFrames[0]
         
         tracker = SKSpriteNode(texture: texture)
-        tracker!.size = CGSize(width: texture.size().width * 1.3, height: texture.size().height * 1.3)  
+        tracker!.size = CGSize(width: texture.size().width * 1.3, height: texture.size().height * 1.3)
         tracker!.position = CGPoint(x: 0, y: 0)
         tracker!.name = "tracker"
         tracker!.zPosition = 4
@@ -490,13 +493,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      When the player makes contact with a drink, that drink is removed, a new one is placed, and the timer is reset
      */
     func didBegin(_ contact: SKPhysicsContact) {
+        
+        if contact.bodyA.node?.name == "player" { //this is a powerup
+            powerup.addTimer(cam: cam)
+            powerup.remove()
+            self.playerSpeed = 0.2 //need to stop this after finishing timer
+        }
         if contact.bodyA.node?.name == "drink" {
             isContact = 1
             drink!.removeFromParent()
             drinkShadow!.removeFromParent()
             placeDrink()
+            let puRNG = Int.random(in: 0 ..< 1)
+            let rngHit = Int.random(in: 0 ..< 1)
+            let randomPos = CGPoint(x: frame.width / 2, y: frame.height / 2) //change to random later
+            powerup.remove()
+            powerup = PowerUp("redbull")
+            powerup.pos = randomPos
+            if (puRNG == rngHit) {
+                addChild(powerup.object)
+            }
             if timer > 0 {
-                timer = 5 - Double(app.drinkCount)*(0.1)
+                timer = 40 - Double(app.drinkCount)*(0.1)
                 timerFill?.removeAllActions()
                 timerFill?.run(SKAction.resize(toWidth: fillWidth / 4, duration: 0.0))
                 timerFill?.run(SKAction.moveTo(x: timerSubstrate!.position.x, duration: 0.0))
@@ -519,6 +537,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Updates the tracker angle and the drinkcount
      */
     override func update(_ currentTime: TimeInterval) {
+        
         if (abs(drink!.position.x - player!.p.position.x) < frame.width / 2 && abs(drink!.position.y - player!.p.position.y) < frame.height / 2) {
             tracker!.isHidden = true
         }
