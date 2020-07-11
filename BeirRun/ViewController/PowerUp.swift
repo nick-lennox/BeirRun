@@ -68,11 +68,4 @@ class PowerUp {
             sub.removeFromParent()
         }
     }
-    
-    @objc func displayTimer() {
-        // Load the SKScene from 'GameScene.sks'
-        print("we out here in here and shit")
-        
-    }
-    
 }
