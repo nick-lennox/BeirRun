@@ -32,9 +32,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timer = 100.0
     var sTime = Timer()
     var isFirst = true
-    
     var powerup = PowerUp("redbull")
-    
+    var hasPowerup = false
     var pos = CGPoint(x: 0, y: 0)
     
     var playerFrames:[SKTexture]?
@@ -52,7 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var shadowFrames:[SKTexture] = []
     var trackerFrames:[SKTexture] = []
     var beerAction:[SKAction] = []
-
+    
     let moveJoystick = 🕹(withDiameter: 100)
     let rotateJoystick = TLAnalogJoystick(withDiameter: 100)
 
@@ -497,7 +496,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.node?.name == "player" { //this is a powerup
             powerup.addTimer(cam: cam)
             powerup.remove()
+            self.hasPowerup = true
             self.playerSpeed = 0.2 //need to stop this after finishing timer
+            Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (Timer) in
+                self.playerSpeed = 0.1
+                self.hasPowerup = false
+            }
         }
         if contact.bodyA.node?.name == "drink" {
             isContact = 1
@@ -506,11 +510,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             placeDrink()
             let puRNG = Int.random(in: 0 ..< 1)
             let rngHit = Int.random(in: 0 ..< 1)
-            let randomPos = CGPoint(x: frame.width / 2, y: frame.height / 2) //change to random later
             powerup.remove()
             powerup = PowerUp("redbull")
-            powerup.pos = randomPos
-            if (puRNG == rngHit) {
+            if (puRNG == rngHit && !hasPowerup) {
                 addChild(powerup.object)
             }
             if timer > 0 {
@@ -537,7 +539,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Updates the tracker angle and the drinkcount
      */
     override func update(_ currentTime: TimeInterval) {
-        
         if (abs(drink!.position.x - player!.p.position.x) < frame.width / 2 && abs(drink!.position.y - player!.p.position.y) < frame.height / 2) {
             tracker!.isHidden = true
         }

@@ -12,16 +12,27 @@ class PowerUp {
     var object:SKSpriteNode
     var pos: CGPoint
     var isRunning: Bool
-    
+    let redbullAtlas = SKTextureAtlas(named: "Redbull")
+    var redbullFrames:[SKTexture] = []
+
     init(_ powerupType: String) {
-        var objTexture: SKTexture
         isRunning = true
-        pos = CGPoint(x: 0, y: 0)
+        pos = CGPoint(x: Int.random(in: -150..<1000), y: Int.random(in: -200..<250)) //change to random later
         //if (powerupType == "redbull") {
-        objTexture = SKTexture(imageNamed: "beer1")
-        //}
+        let objTexture = SKTexture(imageNamed: "beer1")
+        for index in 1 ... 3 {
+            let textureName = "redbull_\(index)"
+            let sTexture = redbullAtlas.textureNamed(textureName)
+            redbullFrames.append(sTexture)
+        }
         object = SKSpriteNode(texture: objTexture)
-        object.size = objTexture.size()
+        object.run(SKAction.repeatForever(
+            SKAction.animate(with: redbullFrames,
+                             timePerFrame: 0.2,
+                             resize: false,
+                             restore: true)),
+            withKey:"redbullAnimation")
+        object.size = CGSize(width: object.size.width  / 3, height: object.size.height / 2)
         object.position = pos
         object.physicsBody = SKPhysicsBody(texture: objTexture, size: object.size)
         object.physicsBody!.affectedByGravity = false
