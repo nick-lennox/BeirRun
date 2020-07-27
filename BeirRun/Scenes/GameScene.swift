@@ -14,7 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //var drinkCount: Int = 0
     
     var player: Player?
-    var playerSpeed = CGFloat(0.1)
+    var playerSpeed = CGFloat(0.3)
     var drink: SKSpriteNode?
     var drinkShadow: SKSpriteNode?
     var drinkTracker: SKSpriteNode?
@@ -106,7 +106,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setUpCount()
         placeDrink()
         setupPlayer()
-        
+        addChild(AI(aiTexture: "Youngbusinessmanwalking").AI)
         //MARK: Handlers begin
         moveJoystick.on(.move) { [unowned self] joystick in
             guard let player = self.player else {

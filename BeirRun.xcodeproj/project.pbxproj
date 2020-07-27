@@ -30,6 +30,7 @@
 		00E9898E2350EB47009096AC /* frontWalk.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 00E9898D2350EB47009096AC /* frontWalk.atlas */; };
 		1F25A14024B4E30800309DDC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F25A13F24B4E30800309DDC /* Assets.xcassets */; };
 		1F25A14224B4E36C00309DDC /* TLAnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F25A14124B4E36C00309DDC /* TLAnalogJoystick.swift */; };
+		1F30825024CF5AB30044A9D5 /* AI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F30824F24CF5AB30044A9D5 /* AI.swift */; };
 		1F62388224B92094001CA519 /* PowerUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62388124B92094001CA519 /* PowerUp.swift */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		00E9898D2350EB47009096AC /* frontWalk.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = frontWalk.atlas; path = ../../frontWalk.atlas; sourceTree = "<group>"; };
 		1F25A13F24B4E30800309DDC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F25A14124B4E36C00309DDC /* TLAnalogJoystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLAnalogJoystick.swift; sourceTree = "<group>"; };
+		1F30824F24CF5AB30044A9D5 /* AI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI.swift; sourceTree = "<group>"; };
 		1F62388124B92094001CA519 /* PowerUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerUp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -173,6 +175,7 @@
 				00BF15D7233EC17700A3CEDA /* GGViewController.swift */,
 				1F25A14124B4E36C00309DDC /* TLAnalogJoystick.swift */,
 				1F62388124B92094001CA519 /* PowerUp.swift */,
+				1F30824F24CF5AB30044A9D5 /* AI.swift */,
 				00CBD473240067A500C96720 /* CollidableObject.swift */,
 				00CBD4752405BD3400C96720 /* Player.swift */,
 				003732B8240F0422006E2DDA /* Beer.swift */,
@@ -359,6 +362,7 @@
 				00BF15D8233EC17700A3CEDA /* GGViewController.swift in Sources */,
 				003732B9240F0422006E2DDA /* Beer.swift in Sources */,
 				00420764233958AE00061C24 /* GameScene.swift in Sources */,
+				1F30825024CF5AB30044A9D5 /* AI.swift in Sources */,
 				00BF15D6233EC00B00A3CEDA /* GGScene.swift in Sources */,
 				007590D32343F8C100DD2A49 /* MenuScene.swift in Sources */,
 				1F25A14224B4E36C00309DDC /* TLAnalogJoystick.swift in Sources */,

@@ -19,7 +19,7 @@ class PowerUp {
         isRunning = true
         pos = CGPoint(x: Int.random(in: -150..<1000), y: Int.random(in: -200..<250)) //change to random later
         //if (powerupType == "redbull") {
-        let objTexture = SKTexture(imageNamed: "beer1")
+        let objTexture = SKTexture(imageNamed: "redbull")
         for index in 1 ... 3 {
             let textureName = "redbull_\(index)"
             let sTexture = redbullAtlas.textureNamed(textureName)
@@ -32,7 +32,7 @@ class PowerUp {
                              resize: false,
                              restore: true)),
             withKey:"redbullAnimation")
-        object.size = CGSize(width: object.size.width  / 3, height: object.size.height / 2)
+        object.size = CGSize(width: object.size.width / 2, height: object.size.height / 2)
         object.position = pos
         object.physicsBody = SKPhysicsBody(texture: objTexture, size: object.size)
         object.physicsBody!.affectedByGravity = false
