@@ -15,7 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var drink: SKSpriteNode?
     var drinkShadow: SKSpriteNode?
     var drinkTracker: SKSpriteNode?
-    
+        
     var background:SKSpriteNode?
     //var pillarBaseL: SKSpriteNode?
     //var pillarBaseR: SKSpriteNode?
@@ -59,6 +59,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var prevBeerY = CGFloat(0)
     
     var aVelocity = CGFloat(0)
+    
    
     var joystickStickImageEnabled = true {
         didSet {
@@ -86,6 +87,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      Handles the animation and distorted movement.
      */
     override func didMove(to view: SKView) {
+        self.app.gamesPlayed += 1
+
         self.camera = cam
         self.addChild(cam)
 
