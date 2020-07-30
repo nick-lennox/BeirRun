@@ -9,7 +9,7 @@ import SpriteKit
 class MenuScene: SKScene {
     
     var menu: UILabel?
-    var playAgain = UIButton.init(type: .roundedRect)
+    var profile = UIButton.init(type: .roundedRect)
     var background = SKSpriteNode()
     var playText = SKSpriteNode()
     /*
@@ -24,6 +24,10 @@ class MenuScene: SKScene {
             background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
             addChild(background)
             background.zPosition = -10000
+            
+            profile.frame = CGRect(x: frame.size.width - frame.size.width / 6, y:frame.height-425, width: 100, height: 100)
+            profile.setImage(UIImage(named: "profilepic")?.withRenderingMode(.alwaysOriginal), for: .normal)
+            profile.addTarget(self, action: #selector(MenuScene.moveProfile(_:)), for: .touchUpInside)
        
             let ttp = SKTexture(imageNamed: "touchtoplay")
             playText = SKSpriteNode(texture: ttp)
@@ -36,7 +40,8 @@ class MenuScene: SKScene {
                 SKAction.fadeOut(withDuration: 1),
                 SKAction.fadeIn(withDuration: 1),
             ])
-        playText.run(SKAction.repeatForever(tSeq))  //...the repeat forever
+            view.addSubview(profile)
+            playText.run(SKAction.repeatForever(tSeq))  //...the repeat forever
         }
     }
     
@@ -46,8 +51,20 @@ class MenuScene: SKScene {
         
         background.removeFromParent()
         playText.removeFromParent()
+        profile.removeFromSuperview()
         let gameTrans = SKTransition.moveIn(with: .right, duration: 0.5)
         self.view?.presentScene(newGame, transition: gameTrans)
  
+    }
+    
+    @objc func moveProfile(_ sender: UIButton!) {
+        let profilescene = ProfileScene(size: self.size)
+        playText.removeAllActions()
+        
+        background.removeFromParent()
+        playText.removeFromParent()
+        profile.removeFromSuperview()
+        let gameTrans = SKTransition.moveIn(with: .right, duration: 0.5)
+        self.view?.presentScene(profilescene, transition: gameTrans)
     }
 }

@@ -48,7 +48,7 @@ class GGScene: SKScene {
             share.frame = CGRect(x: (3 / 4) * frame.width - 75, y: frame.height -  frame.height / 3, width: 75, height: 75)
             share.setImage(UIImage(named: "shareButton")?.withRenderingMode(.alwaysOriginal), for: .normal)
             share.setImage(UIImage(named: "shareButtonPressed")?.withRenderingMode(.alwaysOriginal), for: .highlighted)
-            //share.addTarget(self, action: #selector(GGScene.buttonAction(_:)), for: .touchUpInside)
+            share.addTarget(self, action: #selector(GGScene.shareAction(_:)), for: .touchUpInside)
 
             view.addSubview(menu)
             view.addSubview(share)
@@ -78,6 +78,9 @@ class GGScene: SKScene {
             countLabel?.font = customFont
             countLabel?.adjustsFontForContentSizeCategory = true
             let num = app.drinkCount
+            
+            app.totalDrinks += num
+            
             countLabel?.text = "\(num)"
             countLabel?.textColor = .white
             countLabel?.lineBreakMode = .byClipping
@@ -94,6 +97,7 @@ class GGScene: SKScene {
             if (highestScore < app.drinkCount) {
                 defaults.set(app.drinkCount, forKey: scoreKey)
                 highestScore = app.drinkCount
+                app.highScore = app.drinkCount
             }
             hsCountLabel?.text = "\(highestScore)"
             hsCountLabel?.textColor = .white
@@ -146,6 +150,19 @@ class GGScene: SKScene {
     
     @objc func shareAction(_ sender:UIButton!)
     {
-        //code
+        let profile = ProfileScene(size: self.size)
+        
+        let gameTrans = SKTransition.moveIn(with: .right, duration: 0.5)
+        playAgain.removeFromSuperview()
+        scoreLabel?.removeFromSuperview()
+        countLabel?.removeFromSuperview()
+        hScoreLabel?.removeFromSuperview()
+        hsCountLabel?.removeFromSuperview()
+        app.drinkCount = 0
+        menu.removeFromSuperview()
+        share.removeFromSuperview()
+
+        self.view?.presentScene(profile, transition: gameTrans)
+        
     }
 }
