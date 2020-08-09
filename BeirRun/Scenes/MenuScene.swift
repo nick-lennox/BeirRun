@@ -25,7 +25,7 @@ class MenuScene: SKScene {
             addChild(background)
             background.zPosition = -10000
             
-            profile.frame = CGRect(x: frame.size.width - frame.size.width / 6, y:frame.height-425, width: 100, height: 100)
+            profile.frame = CGRect(x: frame.size.width - frame.size.width / 5.5, y:frame.height-417, width: 100, height: 100)
             profile.setImage(UIImage(named: "profilepic")?.withRenderingMode(.alwaysOriginal), for: .normal)
             profile.addTarget(self, action: #selector(MenuScene.moveProfile(_:)), for: .touchUpInside)
        
