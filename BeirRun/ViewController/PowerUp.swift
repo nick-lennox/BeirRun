@@ -34,6 +34,7 @@ class PowerUp {
             withKey:"redbullAnimation")
         object.size = CGSize(width: object.size.width / 2, height: object.size.height / 2)
         object.position = pos
+        object.name = "powerup"
         object.physicsBody = SKPhysicsBody(texture: objTexture, size: object.size)
         object.physicsBody!.affectedByGravity = false
         object.physicsBody!.isDynamic = false

@@ -14,7 +14,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //var drinkCount: Int = 0
     
     var player: Player?
-    var playerSpeed = CGFloat(0.3)
+    var AIman = AI(aiTexture: "Youngbusinessmanwalking")
+    var playerSpeed = CGFloat(0.1)
     var drink: SKSpriteNode?
     var drinkShadow: SKSpriteNode?
     var drinkTracker: SKSpriteNode?
@@ -33,6 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var sTime = Timer()
     var isFirst = true
     var powerup = PowerUp("redbull")
+    var powerupNode: SKSpriteNode?
     var hasPowerup = false
     var pos = CGPoint(x: 0, y: 0)
     
@@ -97,7 +99,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         prevBeerX = frame.width / 2
         prevBeerY = frame.height / 2
         
-        //setUpTables()
+        setUpTables()
         setUpBackground()
         placeTracker()
 
@@ -106,7 +108,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setUpCount()
         placeDrink()
         setupPlayer()
-        addChild(AI(aiTexture: "Youngbusinessmanwalking").AI)
+        
+        
         //MARK: Handlers begin
         moveJoystick.on(.move) { [unowned self] joystick in
             guard let player = self.player else {
@@ -189,6 +192,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(p.p)
         player = p
         player!.p.physicsBody!.contactTestBitMask = drink!.physicsBody!.collisionBitMask
+        player!.p.physicsBody!.contactTestBitMask = powerup.object.physicsBody!.collisionBitMask
+        print(powerup.object.physicsBody!.collisionBitMask)
+        AIman.AI.physicsBody!.contactTestBitMask = player!.p.physicsBody!.contactTestBitMask
+        self.addChild(AIman.AI)
+
         let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: player!.p)
         cam.constraints = [ constraint ]
     }
@@ -316,6 +324,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         
         //POSITION
+
+        sqTable.object.physicsBody!.collisionBitMask = powerup.object.physicsBody!.collisionBitMask
+        rdTableL.object.physicsBody!.collisionBitMask = powerup.object.physicsBody!.collisionBitMask
+        rdTableR.object.physicsBody!.collisionBitMask = powerup.object.physicsBody!.collisionBitMask
+        poolTableT.object.physicsBody!.collisionBitMask = powerup.object.physicsBody!.collisionBitMask
+        poolTableT.object.physicsBody!.collisionBitMask = powerup.object.physicsBody!.collisionBitMask
+        poolTableB.object.physicsBody!.collisionBitMask = powerup.object.physicsBody!.collisionBitMask
+        benchT.object.physicsBody!.collisionBitMask = powerup.object.physicsBody!.collisionBitMask
+        benchM.object.physicsBody!.collisionBitMask = powerup.object.physicsBody!.collisionBitMask
+        benchB.object.physicsBody!.collisionBitMask = powerup.object.physicsBody!.collisionBitMask
+        leftBoundary.object.physicsBody!.collisionBitMask = powerup.object.physicsBody!.collisionBitMask
+        rightBoundary.object.physicsBody!.collisionBitMask = powerup.object.physicsBody!.collisionBitMask
 
         addChild(sqTable.object)
         addChild(rdTableL.object)
@@ -492,8 +512,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      When the player makes contact with a drink, that drink is removed, a new one is placed, and the timer is reset
      */
     func didBegin(_ contact: SKPhysicsContact) {
-        
-        if contact.bodyA.node?.name == "player" { //this is a powerup
+        if contact.bodyB.node?.name == "powerup" { //this is a powerup
             powerup.addTimer(cam: cam)
             powerup.remove()
             self.hasPowerup = true
@@ -503,6 +522,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.hasPowerup = false
             }
         }
+        if contact.bodyB.node?.name == "ai" { //this is a powerup
+//            print("we've made contact with the ai")
+        }
         if contact.bodyA.node?.name == "drink" {
             isContact = 1
             drink!.removeFromParent()
@@ -511,9 +533,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let puRNG = Int.random(in: 0 ..< 1)
             let rngHit = Int.random(in: 0 ..< 1)
             powerup.remove()
+            
             powerup = PowerUp("redbull")
+            powerupNode = powerup.object
+            powerupNode!.physicsBody!.collisionBitMask = drink!.physicsBody!.collisionBitMask
             if (puRNG == rngHit && !hasPowerup) {
-                addChild(powerup.object)
+                addChild(powerupNode!)
             }
             if timer > 0 {
                 timer = 40 - Double(app.drinkCount)*(0.1)

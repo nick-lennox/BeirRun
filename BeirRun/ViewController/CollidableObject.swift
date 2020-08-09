@@ -8,17 +8,12 @@ class CollidableObject {
         object = SKSpriteNode(texture: objTexture)
         object.size = size
         object.position = pos
-        while object.physicsBody == nil {
-            object.physicsBody = SKPhysicsBody(texture: objTexture, size: size)
-        }
-        if object.physicsBody != nil {
-            object.physicsBody!.affectedByGravity = false
-            object.physicsBody!.isDynamic = false
-            object.zPosition = zPos
-        }
-        else {
-            print("TEMP nil")
-        }
+        object.physicsBody = SKPhysicsBody(texture: objTexture, size: size)
+    
+        object.physicsBody!.affectedByGravity = false
+        object.physicsBody!.isDynamic = false
+        object.zPosition = zPos
+        object.name = "collidable"
     }
     
     func changePBImage(_ image: UIImage) {

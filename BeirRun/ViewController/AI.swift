@@ -43,31 +43,31 @@ class AI {
         }
         let initialTexture = SKTexture(imageNamed: "ManSouth")
         AI = SKSpriteNode(texture: initialTexture)
-        AI.position = CGPoint(x: 200, y: 0)
+        AI.name = "ai"
+        AI.position = CGPoint(x: 0, y: 100)
         AI.size = CGSize(width: AI.size.width * 3, height: AI.size.height * 3)
         AI.physicsBody = SKPhysicsBody(texture: initialTexture, size: AI.size)
         AI.physicsBody!.affectedByGravity = false
         AI.physicsBody!.isDynamic = false
         var frames:[SKTexture]?
-        let directionTimer = Double.random(in: 2 ... 7)
+        let directionTimer = Double.random(in: 1 ... 3)
         Timer.scheduledTimer(withTimeInterval: directionTimer, repeats: true) { (Timer) in
             let rngDirection = Double.random(in: 0 ... 2 * Double.pi)
-            let left = CGFloat( (1 / 4) * Double.pi )
-            if (rngDirection < Double(left) && rngDirection > -Double(left)) {
+            if (rngDirection < 2.355 && rngDirection > 0.785) {
                 frames = self.northFrames
                 self.AI.run(SKAction.repeatForever(SKAction.move(to: CGPoint(x: self.AI.position.x, y: self.AI.position.y + 250), duration: directionTimer)))
             }
-            else if (rngDirection > Double(left) && rngDirection < 3 * Double(left)) {
+            else if (rngDirection > 2.355 && rngDirection < 3.925) {
                 frames = self.westFrames
                 self.AI.run(SKAction.repeatForever(SKAction.move(to: CGPoint(x: self.AI.position.x - 250, y: self.AI.position.y), duration: directionTimer)))
             }
-            else if (rngDirection < -Double(left) && rngDirection > -3 *  Double(left)) {
-                frames = self.eastFrames
-                self.AI.run(SKAction.repeatForever(SKAction.move(to: CGPoint(x: self.AI.position.x + 250, y: self.AI.position.y), duration: directionTimer)))
-            }
-            else {
+            else if (rngDirection < 5.495 && rngDirection > 3.925) {
                 frames = self.southFrames
                 self.AI.run(SKAction.repeatForever(SKAction.move(to: CGPoint(x: self.AI.position.x, y: self.AI.position.y - 250), duration: directionTimer)))
+            }
+            else {
+                frames = self.eastFrames
+                self.AI.run(SKAction.repeatForever(SKAction.move(to: CGPoint(x: self.AI.position.x + 250, y: self.AI.position.y), duration: directionTimer)))
             }
             self.AI.run(SKAction.repeatForever(SKAction.animate(with: frames!, timePerFrame: 0.1)))
         }
