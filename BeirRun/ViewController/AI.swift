@@ -17,10 +17,35 @@ class AI {
 
 
     init(aiTexture: String) {
-        let southAtlas = SKTextureAtlas(named: "ManSouth")
-        let northAtlas = SKTextureAtlas(named: "ManNorth")
-        let eastAtlas = SKTextureAtlas(named: "ManEast")
-        let westAtlas = SKTextureAtlas(named: "ManWest")
+        var southAtlas : SKTextureAtlas
+        var northAtlas : SKTextureAtlas
+        var eastAtlas : SKTextureAtlas
+        var westAtlas : SKTextureAtlas
+
+        if (aiTexture == "Youngbusinessmanwalking") {
+            southAtlas = SKTextureAtlas(named: "ManSouth")
+            northAtlas = SKTextureAtlas(named: "ManNorth")
+            eastAtlas = SKTextureAtlas(named: "ManEast")
+            westAtlas = SKTextureAtlas(named: "ManWest")
+        }
+        else if (aiTexture == "Maleyouthwalking") {
+            southAtlas = SKTextureAtlas(named: "KidSouth")
+            northAtlas = SKTextureAtlas(named: "KidNorth")
+            eastAtlas = SKTextureAtlas(named: "KidEast")
+            westAtlas = SKTextureAtlas(named: "KidWest")
+        }
+        else if (aiTexture == "Femaletrendywalking") {
+            southAtlas = SKTextureAtlas(named: "TrendySouth")
+            northAtlas = SKTextureAtlas(named: "TrendyNorth")
+            eastAtlas = SKTextureAtlas(named: "TrendyEast")
+            westAtlas = SKTextureAtlas(named: "TrendyWest")
+        }
+        else {
+            southAtlas = SKTextureAtlas(named: "KidSouth")
+            northAtlas = SKTextureAtlas(named: "KidNorth")
+            eastAtlas = SKTextureAtlas(named: "KidEast")
+            westAtlas = SKTextureAtlas(named: "KidWest")
+        }
         for index in 1 ... 8 {
             let textureName = aiTexture + "south\(index)"
             let pTexture = southAtlas.textureNamed(textureName)
@@ -44,7 +69,7 @@ class AI {
         let initialTexture = SKTexture(imageNamed: "ManSouth")
         AI = SKSpriteNode(texture: initialTexture)
         AI.name = "ai"
-        AI.position = CGPoint(x: 0, y: 100)
+        AI.position = CGPoint(x: Int.random(in: 0 ... 100), y: Int.random(in: 0 ... 100))
         AI.size = CGSize(width: AI.size.width * 3, height: AI.size.height * 3)
         AI.physicsBody = SKPhysicsBody(texture: initialTexture, size: AI.size)
         AI.physicsBody!.affectedByGravity = false

@@ -15,6 +15,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var player: Player?
     var AIman = AI(aiTexture: "Youngbusinessmanwalking")
+    var AIkid = AI(aiTexture: "Maleyouthwalking")
+    var AItrendy = AI(aiTexture: "Femaletrendywalking")
+
     var playerSpeed = CGFloat(0.1)
     var drink: SKSpriteNode?
     var drinkShadow: SKSpriteNode?
@@ -196,7 +199,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print(powerup.object.physicsBody!.collisionBitMask)
         AIman.AI.physicsBody!.contactTestBitMask = player!.p.physicsBody!.contactTestBitMask
         self.addChild(AIman.AI)
-
+        AIkid.AI.physicsBody!.contactTestBitMask = player!.p.physicsBody!.contactTestBitMask
+        self.addChild(AIkid.AI)
+        AItrendy.AI.physicsBody!.contactTestBitMask = player!.p.physicsBody!.contactTestBitMask
+        self.addChild(AItrendy.AI)
         let constraint = SKConstraint.distance(SKRange(constantValue: 0), to: player!.p)
         cam.constraints = [ constraint ]
     }
