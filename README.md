@@ -1,21 +1,17 @@
-# BeirRun  
-### Description
-BeirRun is a two dimensional and birds eye view game where the user controls a player who needs to collect drinks. The more drinks you collect the harder the controls get, the more distored the graphics get and the more distored the audio gets. 
+# BeirRun
 
-### Progress  
+BeirRun is a two dimensional and birds eye view game where the user controls a player who needs to collect drinks. The more drinks you collect the harder the controls get, the more distorted the graphics get and the more distorted the audio gets.
 
-- Player that is controlled by a joystick
-- "Start" menu
-- "Game Over" menu
-- Working timer
-- Game score
-- Spawning drinks
-- Picking up drinks
+## Gameplay Preview
 
-### To do
-- Drinking effect for controls
-- Drinking effect for audio
-- Drinking effect for graphics
+<img src="https://i.gyazo.com/4f2bd0d6ace819ea745efd93f4ae36f5.gif" width=500>
 
-### How to help?
-Soon we will have a working beta of the game and we will need beta testers! This helps us find bugs in the game and take suggestions including new features, levels and game dynamics.
+<img src="https://i.gyazo.com/f0d7f8e0c02356cdb1c47b530a4ef370.gif" width=500>
+
+
+## License
+
+This project is licensed under the MIT License - see the [license](https://github.com/nick-lennox/BeirRun/blob/master/LICENSE) for details
+
+
+
