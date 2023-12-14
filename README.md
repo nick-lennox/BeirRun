@@ -56,4 +56,4 @@ This project is licensed under the MIT License - see the [license](https://githu
 
 ## Contributions
 
-We're not necessarily looking for contributions at this moment. Once the game has a solid foundation we will gladly accept contributions via GitHub pull requests.
+Feel free to contribute to this project by forking the repository, creating a new branch for your changes, and submitting a pull request, and please adhere to the terms of the MIT License.
